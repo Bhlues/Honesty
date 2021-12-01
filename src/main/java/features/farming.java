@@ -1,18 +1,25 @@
 package features;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import utils.rotation;
 
 public class farming {
-	public static boolean active = false;
-	public static boolean activenoreturn = false;
-	public static boolean farming = false;
+	public static boolean active = false; // crops
+	public static boolean swap = false; // cane
+	public static boolean farming = false; // any running
+	public static boolean cropfarming = false;
+	public static boolean canefarming = false;
 	public static boolean leftClick = false;
 	public static boolean rightClick = false;
 	public static boolean wart = false;
@@ -35,7 +42,9 @@ public class farming {
 	int y = -127;
 	int z = 0;
 	int random = 5;
-	int layer = y;
+	int OldY = 0;
+
+	ArrayList<String> CropTools = new ArrayList<>(Arrays.asList("Euclid", "Pythagorean", "Gauss"));
 
 	private static void KeyDown(KeyBinding key) {
 		if (!key.isKeyDown())
@@ -64,7 +73,7 @@ public class farming {
 		if (e.phase != TickEvent.Phase.START)
 			return;
 		// if (player == null)
-		//return;
+		// return;
 		tick++;
 		if (tick > updater) {
 			if (farming) {
@@ -84,14 +93,34 @@ public class farming {
 		int tool = findItemInHotbar("Newton");
 		if (tool != -1)
 			Minecraft.getMinecraft().thePlayer.inventory.currentItem = tool;
-		// adjust angle toevoegen
+		Vec3 current = Minecraft.getMinecraft().thePlayer.getPositionVector();
+		rotation.facePos(new Vec3(current.xCoord, current.yCoord + 1.875, current.zCoord + 1));
 		KeyDown(attack);
 		delay++;
 		if (delay < 5)
-		return;
-		int PosY = Minecraft.getMinecraft().thePlayer.getPosition().getY();
-		if (y != PosY) {
-			KeyUp (attack);
+			return;
+		int PosX = Minecraft.getMinecraft().thePlayer.getPosition().getX();
+		if (PosX == 88 || PosX == 83) {
+			KeyUp(attack);
+			tick++;
+			if (tick == 20)
+				tick = 1;
+			if (tick == 2)
+				OldY = Minecraft.getMinecraft().thePlayer.getPosition().getY();
+			if (tick == 15) {
+				if (OldY != Minecraft.getMinecraft().thePlayer.getPosition().getY()) {
+					active = !active;
+				}
+			}
+		}
+	}
+
+	public void CropFarmer() {
+		for (String tool : CropTools) {
+			int Slot = findItemInHotbar(tool);
+			if (Slot != -1) {
+
+			}
 		}
 	}
 
@@ -99,13 +128,28 @@ public class farming {
 		KeyDown(attack);
 	}
 
-	public void CropFarmer() {
-		KeyDown(attack);
-	}
-	
-	
 	public void CropsMovement() {
-		
+		if (cropfarming) {
+			if (active) {
+				KeyDown(right);
+				KeyUp(left);
+			} else {
+				KeyUp(right);
+				KeyDown(left);
+			}
+		}
+	}
+
+	public void CaneMovement() {
+		if (canefarming) {
+			if (swap) {
+				KeyUp(back);
+				KeyDown(right);
+			} else {
+				KeyUp(right);
+				KeyDown(left);
+			}
+		}
 	}
 
 	public void onWorldChange(WorldEvent.Unload e) {
@@ -126,7 +170,7 @@ public class farming {
 		x = 0;
 		y = -127;
 		z = 0;
-		layer = y;
+		OldY = 0;
 		delay = 0;
 		errored = 0;
 		KeyUp(attack);

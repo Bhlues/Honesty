@@ -22,6 +22,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 public class teleport {
 	ArrayList<String> ItemList = new ArrayList<>(Arrays.asList("Stonk", "Toil", "Daedalus", "Metal"));
 	ArrayList<String> TeleportList = new ArrayList<>(Arrays.asList("Void", "Hyperion", "Scylla", "Valk", "Astrea"));
+	public static boolean active = false;
 
 	public static void rightClick() {
 		try {
@@ -51,7 +52,6 @@ public class teleport {
 		return -1;
 	}
 
-	boolean active = false;
 
 	private static final KeyBinding SWAP_KEY = new KeyBinding("ToggleTeleport", Keyboard.KEY_U, Main.MODID);
 	static {

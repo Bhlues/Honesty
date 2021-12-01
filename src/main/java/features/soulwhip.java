@@ -18,8 +18,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+
 public class soulwhip {
 	ArrayList<String> StartItems = new ArrayList<>(Arrays.asList("Emerald", "Whip", "Flux", "flux"));
+	public static boolean active = false;
 
 	public static void rightClick() {
 		try {
@@ -49,7 +51,7 @@ public class soulwhip {
 		return -1;
 	}
 
-	boolean active = false;
+	
 
 	private static final KeyBinding SWAP_KEY = new KeyBinding("Soulwhip", Keyboard.KEY_J, Main.MODID);
 	static {

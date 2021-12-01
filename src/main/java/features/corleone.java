@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class corleone {
-	boolean afk = false;
+	public static boolean afk = false;
 
 	private static void KeyDown(KeyBinding key) {
 		if (!key.isKeyDown())
