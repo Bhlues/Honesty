@@ -1,4 +1,4 @@
-package apec_beta;
+package honesty;
 
 import features.corleone;
 import features.farming;

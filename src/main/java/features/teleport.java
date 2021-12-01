@@ -7,7 +7,7 @@ import java.util.Random;
 
 import org.lwjgl.input.Keyboard;
 
-import apec_beta.Main;
+import honesty.Main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.InventoryPlayer;
