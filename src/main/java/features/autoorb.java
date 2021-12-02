@@ -4,12 +4,11 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import javax.swing.text.JTextComponent.KeyBinding;
-
 import org.lwjgl.input.Keyboard;
 
 import honesty.Main;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
@@ -18,7 +17,6 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraft.client.settings.KeyBinding;
 
 public class autoorb {
 	ArrayList<String> ShortOrbs = new ArrayList<>(Arrays.asList("Radiant", "Mana Flux", "IQ Flux"));
@@ -68,7 +66,6 @@ public class autoorb {
 		}
 	}
 
-	
 	int tick = 0;
 
 	@SubscribeEvent
@@ -81,15 +78,15 @@ public class autoorb {
 		if (tick > 1200)
 			tick = 1;
 		if (tick == 3) {
-			Minecraft.getMinecraft().thePlayer.inventory.currentItem = findItemInHotbar ("");
+			Minecraft.getMinecraft().thePlayer.inventory.currentItem = findItemInHotbar("");
 		}
-		if (tick == 5 ) {
+		if (tick == 5) {
 			rightClick();
 		}
 		if (tick == 8) {
-			Minecraft.getMinecraft().thePlayer.inventory.currentItem = findItemInHotbar ("");
+			Minecraft.getMinecraft().thePlayer.inventory.currentItem = findItemInHotbar("");
 		}
-		
+
 	}
 
 }

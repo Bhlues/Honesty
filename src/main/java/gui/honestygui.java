@@ -52,10 +52,13 @@ public class honestygui extends GuiScreen {
 		backPage = new GuiButton(0, width / 2 - 100, (int) (height * 0.8), 80, 20, "< Back");
 		nextPage = new GuiButton(0, width / 2 + 20, (int) (height * 0.8), 80, 20, "Next >");
 
-		corleoneafk = new GuiButton(0, 0, 0, "Corleone afk");
-		farmingbutton = new GuiButton(0, 0, 0, "farming menu");
-		soulwhipSS = new GuiButton(0, 0, 0, "soulwhip swapping");
-		teleporting = new GuiButton(0, 0, 0, "more teleport items");
+		corleoneafk = new GuiButton(0, 0, 0, "Corleone AFK: " + (corleone.afk ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
+				+ corleone.afk);
+		farmingbutton = new GuiButton(0, 0, 0, "Farming Menu");
+		soulwhipSS = new GuiButton(0, 0, 0, "Soulwhip Swordswap: "
+				+ (soulwhip.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + soulwhip.active);
+		teleporting = new GuiButton(0, 0, 0, "More Teleporting Items: "
+				+ (teleport.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active);
 
 		allButtons.add(corleoneafk);
 		allButtons.add(farmingbutton);
@@ -98,17 +101,17 @@ public class honestygui extends GuiScreen {
 			mc.displayGuiScreen(new honestygui(page - 1));
 		} else if (button == corleoneafk) {
 			corleone.afk = !corleone.afk;
-			corleoneafk.displayString = "Enabled: " + (corleone.afk ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
+			corleoneafk.displayString = "Corleone AFK: " + (corleone.afk ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
 					+ corleone.afk;
 					Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == soulwhipSS) {
 			soulwhip.active = !soulwhip.active;
-			soulwhipSS.displayString = "Enabled:"
+			soulwhipSS.displayString = "Soulwhip Swordswap: "
 					+ (soulwhip.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + soulwhip.active;
 					Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == teleporting) {
 			teleport.active = !teleport.active;
-			teleporting.displayString = "Enabled"
+			teleporting.displayString = "More Teleporting Items: "
 					+ (teleport.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active;
 		} else if (button == farmingbutton) {
 			Minecraft.getMinecraft().displayGuiScreen(new farminggui(1));
