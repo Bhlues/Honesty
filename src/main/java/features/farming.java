@@ -20,6 +20,7 @@ public class farming {
 	public static boolean farming = false; // any running
 	public static boolean cropfarming = false;
 	public static boolean canefarming = false;
+	public static boolean wartfarming = false;
 	public static boolean leftClick = false;
 	public static boolean rightClick = false;
 	public static boolean wart = false;

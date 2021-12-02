@@ -4,11 +4,12 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.swing.text.JTextComponent.KeyBinding;
+
 import org.lwjgl.input.Keyboard;
 
 import honesty.Main;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
@@ -17,6 +18,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraft.client.settings.KeyBinding;
 
 public class autoorb {
 	ArrayList<String> ShortOrbs = new ArrayList<>(Arrays.asList("Radiant", "Mana Flux", "IQ Flux"));

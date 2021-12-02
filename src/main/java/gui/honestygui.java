@@ -9,6 +9,8 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 
 import features.*;
+import gui.opengui.*;
+import honesty.Main;
 
 public class honestygui extends GuiScreen {
 
@@ -24,7 +26,7 @@ public class honestygui extends GuiScreen {
 
 	// toggles
 	private GuiButton corleoneafk;
-	private GuiButton farming;
+	private GuiButton farmingbutton;
 	private GuiButton soulwhipSS;
 	private GuiButton teleporting;
 
@@ -50,12 +52,12 @@ public class honestygui extends GuiScreen {
 		nextPage = new GuiButton(0, width / 2 + 20, (int) (height * 0.8), 80, 20, "Next >");
 
 		corleoneafk = new GuiButton(0, 0, 0, "Corleone afk");
-		farming = new GuiButton(0, 0, 0, "farming menu");
+		farmingbutton = new GuiButton(0, 0, 0, "farming menu");
 		soulwhipSS = new GuiButton(0, 0, 0, "soulwhip swapping");
 		teleporting = new GuiButton(0, 0, 0, "more teleport items");
 
 		allButtons.add(corleoneafk);
-		allButtons.add(farming);
+		allButtons.add(farmingbutton);
 		allButtons.add(soulwhipSS);
 		allButtons.add(teleporting);
 
@@ -95,12 +97,13 @@ public class honestygui extends GuiScreen {
 			mc.displayGuiScreen(new honestygui(page - 1));
 		} else if (button == corleoneafk) {
 			corleone.afk = !corleone.afk;
+			
 		} else if (button == soulwhipSS) {
 			soulwhip.active = !soulwhip.active;
 		} else if (button == teleporting) {
 			teleport.active = !teleport.active;
-		}
-
+		} else if (button == farmingbutton) {
+			Minecraft.getMinecraft().displayGuiScreen(new farminggui(1));
 	}
 
 }
