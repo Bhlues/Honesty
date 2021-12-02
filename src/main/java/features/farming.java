@@ -42,6 +42,7 @@ public class farming {
 
 	public static int tick = 0;
 	public static int updater = 20;
+	public static int direction = 0;
 
 	int delay = 0, errored = 0;
 	int random = 5;
@@ -131,8 +132,6 @@ public class farming {
 		rotation.facePos(new Vec3(current.xCoord, current.yCoord + 1.875, current.zCoord + 1));
 		KeyDown(attack);
 		delay++;
-		if (delay < 5)
-			return;
 		int PosX = Minecraft.getMinecraft().thePlayer.getPosition().getX();
 		if (PosX == 88 || PosX == 83) {
 			KeyUp(attack);
@@ -143,16 +142,20 @@ public class farming {
 				OldY = Minecraft.getMinecraft().thePlayer.getPosition().getY();
 			OldX = Minecraft.getMinecraft().thePlayer.getPosition().getX();
 			OldZ = Minecraft.getMinecraft().thePlayer.getPosition().getZ();
-			if (tick == 15 && stuck) {
+			if (tick == 10 && stuck) {
 				if (OldY != Minecraft.getMinecraft().thePlayer.getPosition().getY()) {
+					active = !active;
+				}
+				if (tick == 15) {
+					if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
+							&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ())
+						;
 					active = !active;
 				}
 				if (tick == 19) {
 					if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
 							&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ())
 						;
-					stuck = true;
-					pause();
 				}
 			}
 		}
@@ -239,6 +242,23 @@ public class farming {
 				ex.printStackTrace();
 			}
 		}).start();
+	}
+
+	public void release() {
+		KeyBinding attack = Minecraft.getMinecraft().gameSettings.keyBindAttack;
+		KeyBinding place = Minecraft.getMinecraft().gameSettings.keyBindUseItem;
+		KeyBinding forward = Minecraft.getMinecraft().gameSettings.keyBindForward;
+		KeyBinding back = Minecraft.getMinecraft().gameSettings.keyBindBack;
+		KeyBinding left = Minecraft.getMinecraft().gameSettings.keyBindLeft;
+		KeyBinding right = Minecraft.getMinecraft().gameSettings.keyBindRight;
+		KeyBinding jump = Minecraft.getMinecraft().gameSettings.keyBindJump;
+		KeyUp(attack);
+		KeyUp(place);
+		KeyUp(forward);
+		KeyUp(back);
+		KeyUp(left);
+		KeyUp(right);
+		KeyUp(jump);
 	}
 
 	public void onWorldChange(WorldEvent.Unload e) {

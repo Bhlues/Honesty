@@ -14,8 +14,7 @@ import net.minecraft.util.EnumChatFormatting;
 public class farminggui extends GuiScreen {
 
     private int page;
-    private int direction = 0;
-
+    
     private List<GuiButton> allButtons = new ArrayList<>();
 	private List<GuiButton> foundButtons = new ArrayList<>();
 
@@ -112,16 +111,16 @@ public class farminggui extends GuiScreen {
             Cane_Macro.displayString = "Enabled" + (farming.canefarming ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.canefarming;
             Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == Facing_start) {
-            direction++;
-            if (direction == 1) {
+            farming.direction++;
+            if (farming.direction == 1) {
               Facing_start.displayString = "Facing: East" + EnumChatFormatting.RED + "color coding werkt";
-            } else if (direction == 2) {
+            } else if (farming.direction == 2) {
               Facing_start.displayString = "Facing: South" + EnumChatFormatting.GREEN + "color coding werkt";
-            } else if (direction == 3) {
+            } else if (farming.direction == 3) {
               Facing_start.displayString = "Facing: West" + EnumChatFormatting.YELLOW + "color coding werkt";
             } else {
               Facing_start.displayString = "Facing: North" + EnumChatFormatting.BLUE + "color coding werkt";
-              direction = 0;
+              farming.direction = 0;
             }
         }
     }
