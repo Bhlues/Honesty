@@ -5,13 +5,11 @@ import java.util.List;
 
 import features.farming;
 import gui.honestygui;
-import net.java.games.input.Component.Identifier.Button;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
-
-
+import net.minecraft.util.EnumChatFormatting;
 
 public class farminggui extends GuiScreen {
 
@@ -103,25 +101,28 @@ public class farminggui extends GuiScreen {
 			mc.displayGuiScreen(new farminggui(page - 1));
 		} else if (button == Cane_Macro) {
 			farming.canefarming = !farming.canefarming;
+            Cane_Macro.displayString = "Enabled" + (farming.canefarming ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.canefarming;
+            Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == Wart_Macro) {
 			farming.wartfarming = !farming.wartfarming;
+            Wart_Macro.displayString = "Enabled" + (farming.wartfarming ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.wartfarming;
+            Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == Cane_Macro) {
 			farming.cropfarming = !farming.cropfarming;
+            Cane_Macro.displayString = "Enabled" + (farming.canefarming ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.canefarming;
+            Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == Facing_start) {
             direction++;
-            if (direction < 4) {
-                if (direction == 0) {
-                    North;
-                } else if (direction == 1) {
-                    East;
-                } else if (direction == 2) {
-                South;
-                } else if (direction == 3) {
-                    West;
-            }
-            } else if (direction > 3) {
-                direction = 0;
+            if (direction == 1) {
+              Facing_start.displayString = "Facing: East" + EnumChatFormatting.RED + "color coding werkt";
+            } else if (direction == 2) {
+              Facing_start.displayString = "Facing: South" + EnumChatFormatting.GREEN + "color coding werkt";
+            } else if (direction == 3) {
+              Facing_start.displayString = "Facing: West" + EnumChatFormatting.YELLOW + "color coding werkt";
+            } else {
+              Facing_start.displayString = "Facing: North" + EnumChatFormatting.BLUE + "color coding werkt";
+              direction = 0;
             }
         }
-	}
+    }
 }

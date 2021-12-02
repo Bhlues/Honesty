@@ -2,6 +2,7 @@ package features;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
@@ -13,6 +14,7 @@ import net.minecraft.util.Vec3;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import utils.rotation;
+import utils.location;
 
 public class farming {
 	public static boolean active = false; // crops
@@ -26,6 +28,8 @@ public class farming {
 	public static boolean wart = false;
 	public static boolean cane = false;
 	public static boolean crops = false;
+	public static boolean stuck = false;
+	public static boolean pause = false;
 
 	KeyBinding attack = Minecraft.getMinecraft().gameSettings.keyBindAttack;
 	KeyBinding place = Minecraft.getMinecraft().gameSettings.keyBindUseItem;
@@ -44,6 +48,8 @@ public class farming {
 	int z = 0;
 	int random = 5;
 	int OldY = 0;
+	int OldX = 0;
+	int OldZ = 0;
 
 	ArrayList<String> CropTools = new ArrayList<>(Arrays.asList("Euclid", "Pythagorean", "Gauss"));
 
@@ -69,6 +75,13 @@ public class farming {
 		}
 		return -1;
 	}
+
+	public void running() {
+		if (wart|| cane || crops);
+			farming = true;
+	}
+
+
 
 	public void OnTick(TickEvent.ClientTickEvent e) {
 		if (e.phase != TickEvent.Phase.START)
@@ -108,9 +121,17 @@ public class farming {
 				tick = 1;
 			if (tick == 2)
 				OldY = Minecraft.getMinecraft().thePlayer.getPosition().getY();
+			OldX = Minecraft.getMinecraft().thePlayer.getPosition().getX();
+			OldZ = Minecraft.getMinecraft().thePlayer.getPosition().getZ();
 			if (tick == 15) {
 				if (OldY != Minecraft.getMinecraft().thePlayer.getPosition().getY()) {
 					active = !active;
+				}
+				if (tick == 19) {
+					if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
+							&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ())
+						;
+					stuck = true;
 				}
 			}
 		}
@@ -131,7 +152,28 @@ public class farming {
 
 	public void CropsMovement() {
 		if (cropfarming) {
-			if (active) {
+			if (stuck) {
+				random = new Random().nextInt(100) + 100;
+				new Thread(() -> {
+					try {
+						KeyBinding space = Minecraft.getMinecraft().gameSettings.keyBindJump;
+						KeyBinding left = Minecraft.getMinecraft().gameSettings.keyBindLeft;
+						KeyBinding right = Minecraft.getMinecraft().gameSettings.keyBindRight;
+						Thread.sleep(new Random().nextInt(75) + 50);
+						KeyDown(space);
+						Thread.sleep(new Random().nextInt(75) + 50);
+						KeyDown(left);
+						KeyUp(space);
+						Thread.sleep(new Random().nextInt(500) + 250);
+						KeyUp(left);
+						KeyDown(right);
+						Thread.sleep(new Random().nextInt(500) + 250);
+						KeyUp(right);
+					} catch (InterruptedException ex) {
+						ex.printStackTrace();
+					}
+				});
+			} else if (active) {
 				KeyDown(right);
 				KeyUp(left);
 			} else {
@@ -157,8 +199,7 @@ public class farming {
 		if (farming)
 			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(
 					EnumChatFormatting.AQUA + "Farming paused:" + EnumChatFormatting.DARK_RED + "Due to server close"));
-		disable();
-
+					pause = true;
 	}
 
 	public void disable() {

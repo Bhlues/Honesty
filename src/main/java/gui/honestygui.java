@@ -3,14 +3,15 @@ package gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import features.corleone;
+import features.soulwhip;
+import features.teleport;
+import gui.opengui.farminggui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
-
-import features.*;
-import gui.opengui.*;
-import honesty.Main;
+import net.minecraft.util.EnumChatFormatting;
 
 public class honestygui extends GuiScreen {
 
@@ -97,13 +98,20 @@ public class honestygui extends GuiScreen {
 			mc.displayGuiScreen(new honestygui(page - 1));
 		} else if (button == corleoneafk) {
 			corleone.afk = !corleone.afk;
-			
+			corleoneafk.displayString = "Enabled: " + (corleone.afk ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
+					+ corleone.afk;
+					Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == soulwhipSS) {
 			soulwhip.active = !soulwhip.active;
+			soulwhipSS.displayString = "Enabled:"
+					+ (soulwhip.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + soulwhip.active;
+					Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == teleporting) {
 			teleport.active = !teleport.active;
+			teleporting.displayString = "Enabled"
+					+ (teleport.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active;
 		} else if (button == farmingbutton) {
 			Minecraft.getMinecraft().displayGuiScreen(new farminggui(1));
+		}
 	}
-
 }

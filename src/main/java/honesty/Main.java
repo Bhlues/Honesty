@@ -8,7 +8,6 @@ import features.farming;
 import features.soulwhip;
 import features.teleport;
 import gui.honestygui;
-import gui.opengui.farminggui;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
