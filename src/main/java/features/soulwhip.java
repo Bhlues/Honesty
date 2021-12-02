@@ -4,16 +4,11 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.lwjgl.input.Keyboard;
-
-import honesty.Main;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -21,6 +16,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class soulwhip {
 	ArrayList<String> StartItems = new ArrayList<>(Arrays.asList("Emerald", "Whip", "Flux", "flux"));
+	
 	public static boolean active = false;
 
 	public static void rightClick() {
@@ -51,16 +47,10 @@ public class soulwhip {
 		return -1;
 	}
 
-	
-
-	private static final KeyBinding SWAP_KEY = new KeyBinding("Soulwhip", Keyboard.KEY_J, Main.MODID);
-	static {
-		ClientRegistry.registerKeyBinding(SWAP_KEY);
-	}
 
 	@SubscribeEvent
 	public void onKeyEvent(KeyInputEvent e) {
-		if (SWAP_KEY.isPressed()) {
+		if (active) {
 			boolean StartCheck = false;
 			for (String Starting : StartItems) {
 				if (Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem().getDisplayName().contains(Starting))
@@ -71,9 +61,6 @@ public class soulwhip {
 						+ "Toggled SoulWhip: " + EnumChatFormatting.RED + "Not holding starting item"));
 				return;
 			}
-			active = !active;
-			Minecraft.getMinecraft().thePlayer
-					.addChatMessage(new ChatComponentText(EnumChatFormatting.AQUA + "Toggled SoulWhip: " + active));
 		}
 	}
 

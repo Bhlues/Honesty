@@ -13,8 +13,8 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import utils.rotation;
 import utils.location;
+import utils.rotation;
 
 public class farming {
 	public static boolean active = false; // crops
@@ -30,6 +30,7 @@ public class farming {
 	public static boolean crops = false;
 	public static boolean stuck = false;
 	public static boolean pause = false;
+	public static boolean returning = false;
 
 	KeyBinding attack = Minecraft.getMinecraft().gameSettings.keyBindAttack;
 	KeyBinding place = Minecraft.getMinecraft().gameSettings.keyBindUseItem;
@@ -43,9 +44,6 @@ public class farming {
 	public static int updater = 20;
 
 	int delay = 0, errored = 0;
-	int x = 0;
-	int y = -127;
-	int z = 0;
 	int random = 5;
 	int OldY = 0;
 	int OldX = 0;
@@ -76,12 +74,28 @@ public class farming {
 		return -1;
 	}
 
-	public void running() {
-		if (wart|| cane || crops);
-			farming = true;
+	public void hub() {
+		if (returning = true) {
+			if (location.inSkyblock && !location.onIsland) {
+				tick++;
+				if (tick == 500)
+					tick = 1;
+				if (tick == 150) {
+					Minecraft.getMinecraft().thePlayer.sendChatMessage("/warp home");
+				}
+				if (tick == 400) {
+					returning = false;
+				}
+
+			}
+		}
 	}
 
-
+	public void running() {
+		if (wart || cane || crops)
+			;
+		farming = true;
+	}
 
 	public void OnTick(TickEvent.ClientTickEvent e) {
 		if (e.phase != TickEvent.Phase.START)
@@ -91,14 +105,20 @@ public class farming {
 		tick++;
 		if (tick > updater) {
 			if (farming) {
-				if (wart)
-					WartFarmer();
-				if (cane)
-					CaneFarmer();
-				if (crops)
-					CropFarmer();
+				if (location.onIsland) {
+					if (wart)
+						WartFarmer();
+					if (cane)
+						CaneFarmer();
+					if (crops)
+						CropFarmer();
+				} else {
+					returning = true;
+					pause();
+				}
 			}
 			tick = 1;
+
 		}
 
 	}
@@ -123,7 +143,7 @@ public class farming {
 				OldY = Minecraft.getMinecraft().thePlayer.getPosition().getY();
 			OldX = Minecraft.getMinecraft().thePlayer.getPosition().getX();
 			OldZ = Minecraft.getMinecraft().thePlayer.getPosition().getZ();
-			if (tick == 15) {
+			if (tick == 15 && stuck) {
 				if (OldY != Minecraft.getMinecraft().thePlayer.getPosition().getY()) {
 					active = !active;
 				}
@@ -132,6 +152,7 @@ public class farming {
 							&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ())
 						;
 					stuck = true;
+					pause();
 				}
 			}
 		}
@@ -195,11 +216,36 @@ public class farming {
 		}
 	}
 
+	public void pause() {
+		new Thread(() -> {
+			try {
+				KeyBinding attack = Minecraft.getMinecraft().gameSettings.keyBindAttack;
+				KeyBinding place = Minecraft.getMinecraft().gameSettings.keyBindUseItem;
+				KeyBinding forward = Minecraft.getMinecraft().gameSettings.keyBindForward;
+				KeyBinding back = Minecraft.getMinecraft().gameSettings.keyBindBack;
+				KeyBinding left = Minecraft.getMinecraft().gameSettings.keyBindLeft;
+				KeyBinding right = Minecraft.getMinecraft().gameSettings.keyBindRight;
+				KeyBinding jump = Minecraft.getMinecraft().gameSettings.keyBindJump;
+				KeyUp(attack);
+				KeyUp(place);
+				KeyUp(forward);
+				KeyUp(back);
+				KeyUp(left);
+				KeyUp(right);
+				KeyUp(jump);
+				Thread.sleep(new Random().nextInt(1200) + 1200);
+				Thread.sleep(new Random().nextInt(3000) + 3000);
+			} catch (InterruptedException ex) {
+				ex.printStackTrace();
+			}
+		}).start();
+	}
+
 	public void onWorldChange(WorldEvent.Unload e) {
 		if (farming)
 			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(
 					EnumChatFormatting.AQUA + "Farming paused:" + EnumChatFormatting.DARK_RED + "Due to server close"));
-					pause = true;
+		returning = true;
 	}
 
 	public void disable() {
@@ -209,9 +255,6 @@ public class farming {
 		wart = false;
 		cane = false;
 		crops = false;
-		x = 0;
-		y = -127;
-		z = 0;
 		OldY = 0;
 		delay = 0;
 		errored = 0;

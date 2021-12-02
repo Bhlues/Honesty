@@ -5,23 +5,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-import org.lwjgl.input.Keyboard;
-
-import honesty.Main;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 
 public class teleport {
 	ArrayList<String> ItemList = new ArrayList<>(Arrays.asList("Stonk", "Toil", "Daedalus", "Metal"));
 	ArrayList<String> TeleportList = new ArrayList<>(Arrays.asList("Void", "Hyperion", "Scylla", "Valk", "Astrea"));
+
 	public static boolean active = false;
 
 	public static void rightClick() {
@@ -50,21 +43,6 @@ public class teleport {
 			}
 		}
 		return -1;
-	}
-
-
-	private static final KeyBinding SWAP_KEY = new KeyBinding("ToggleTeleport", Keyboard.KEY_U, Main.MODID);
-	static {
-		ClientRegistry.registerKeyBinding(SWAP_KEY);
-	}
-
-	@SubscribeEvent
-	public void onKeyEvent(KeyInputEvent e) {
-		if (SWAP_KEY.isPressed()) {
-			active = !active;
-			Minecraft.getMinecraft().thePlayer
-					.addChatMessage(new ChatComponentText(EnumChatFormatting.AQUA + "Toggled Teleport: " + active));
-		}
 	}
 
 	@SubscribeEvent
