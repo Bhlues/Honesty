@@ -20,17 +20,21 @@ public class farming {
 	public static boolean active = false; // crops
 	public static boolean swap = false; // cane
 	public static boolean farming = false; // any running
-	public static boolean cropfarming = false;
-	public static boolean canefarming = false;
-	public static boolean wartfarming = false;
+	public static boolean facingwart = false;
+	public static boolean facingcrops = false;
+	public static boolean facingcane = false;
 	public static boolean leftClick = false;
 	public static boolean rightClick = false;
 	public static boolean wart = false;
 	public static boolean cane = false;
 	public static boolean crops = false;
+	public static boolean CropsFarmingCheck = false;
+	public static boolean CaneFarmingCheck = false;
 	public static boolean stuck = false;
 	public static boolean pause = false;
 	public static boolean returning = false;
+	public static boolean TeleporterCrops = false;
+	public static boolean TeleporterCane = false;
 
 	KeyBinding attack = Minecraft.getMinecraft().gameSettings.keyBindAttack;
 	KeyBinding place = Minecraft.getMinecraft().gameSettings.keyBindUseItem;
@@ -49,6 +53,8 @@ public class farming {
 	int OldY = 0;
 	int OldX = 0;
 	int OldZ = 0;
+	int FacingX = 0;
+	int FacingZ = 0;
 
 	ArrayList<String> CropTools = new ArrayList<>(Arrays.asList("Euclid", "Pythagorean", "Gauss"));
 
@@ -75,6 +81,26 @@ public class farming {
 		return -1;
 	}
 
+	public void DirectionCoordsZ() { // if facing ZCoords
+		if (direction == 0) {
+			// TODO FacingX = ???
+		} else if (direction == 2) {
+			// TODO FacringX = ???
+		} else {
+			FacingX = 0;
+		}
+	}
+
+	public void DirectionCoordsX() { // if facing XCoords
+		if (direction == 0) {
+			// TODO FacingZ = ???
+		} else if (direction == 2) {
+			// TODO FacringZ = ???
+		} else {
+			FacingZ = 0;
+		}
+	}
+
 	public void hub() {
 		if (returning = true) {
 			if (location.inSkyblock && !location.onIsland) {
@@ -93,9 +119,13 @@ public class farming {
 	}
 
 	public void running() {
-		if (wart || cane || crops)
-			;
-		farming = true;
+		if (wart || crops) {
+			CropsFarmingCheck = true;
+			farming = true;
+		} else if (cane) {
+			CaneFarmingCheck = true;
+			farming = true;
+		}
 	}
 
 	public void OnTick(TickEvent.ClientTickEvent e) {
@@ -126,6 +156,10 @@ public class farming {
 
 	public void WartFarmer() {
 		int tool = findItemInHotbar("Newton");
+		if (tool == -1) {
+			Minecraft.getMinecraft().thePlayer.addChatMessage(
+					new ChatComponentText(EnumChatFormatting.RED + "Required farming tool not in hotbar"));
+		}
 		if (tool != -1)
 			Minecraft.getMinecraft().thePlayer.inventory.currentItem = tool;
 		Vec3 current = Minecraft.getMinecraft().thePlayer.getPositionVector();
@@ -133,8 +167,8 @@ public class farming {
 		KeyDown(attack);
 		delay++;
 		int PosX = Minecraft.getMinecraft().thePlayer.getPosition().getX();
-		if (PosX == 88 || PosX == 83) {
-			KeyUp(attack);
+		if (PosX == 88 || PosX == 83) { // TODO facing netherwart?????
+			KeyDown(attack);
 			tick++;
 			if (tick == 20)
 				tick = 1;
@@ -156,6 +190,7 @@ public class farming {
 					if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
 							&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ())
 						;
+					stuck = true;
 				}
 			}
 		}
@@ -175,7 +210,7 @@ public class farming {
 	}
 
 	public void CropsMovement() {
-		if (cropfarming) {
+		if (CropsFarmingCheck) {
 			if (stuck) {
 				random = new Random().nextInt(100) + 100;
 				new Thread(() -> {
@@ -208,8 +243,29 @@ public class farming {
 	}
 
 	public void CaneMovement() {
-		if (canefarming) {
-			if (swap) {
+		if (CaneFarmingCheck) {
+			if (stuck) {
+				random = new Random().nextInt(100) + 100;
+				new Thread(() -> {
+					try {
+						KeyBinding space = Minecraft.getMinecraft().gameSettings.keyBindJump;
+						KeyBinding left = Minecraft.getMinecraft().gameSettings.keyBindLeft;
+						KeyBinding right = Minecraft.getMinecraft().gameSettings.keyBindRight;
+						Thread.sleep(new Random().nextInt(75) + 50);
+						KeyDown(space);
+						Thread.sleep(new Random().nextInt(75) + 50);
+						KeyDown(left);
+						KeyUp(space);
+						Thread.sleep(new Random().nextInt(500) + 250);
+						KeyUp(left);
+						KeyDown(right);
+						Thread.sleep(new Random().nextInt(500) + 250);
+						KeyUp(right);
+					} catch (InterruptedException ex) {
+						ex.printStackTrace();
+					}
+				});
+			} else if (swap) {
 				KeyUp(back);
 				KeyDown(right);
 			} else {
@@ -217,6 +273,7 @@ public class farming {
 				KeyDown(left);
 			}
 		}
+
 	}
 
 	public void pause() {

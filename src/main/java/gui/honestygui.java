@@ -52,16 +52,16 @@ public class honestygui extends GuiScreen {
 		backPage = new GuiButton(0, width / 2 - 100, (int) (height * 0.8), 80, 20, "< Back");
 		nextPage = new GuiButton(0, width / 2 + 20, (int) (height * 0.8), 80, 20, "Next >");
 
+		farmingbutton = new GuiButton(0, 0, 0, "Farming Menu");
 		corleoneafk = new GuiButton(0, 0, 0, "Corleone AFK: " + (corleone.afk ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
 				+ corleone.afk);
-		farmingbutton = new GuiButton(0, 0, 0, "Farming Menu");
 		soulwhipSS = new GuiButton(0, 0, 0, "Soulwhip Swordswap: "
 				+ (soulwhip.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + soulwhip.active);
 		teleporting = new GuiButton(0, 0, 0, "More Teleporting Items: "
 				+ (teleport.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active);
 
-		allButtons.add(corleoneafk);
 		allButtons.add(farmingbutton);
+		allButtons.add(corleoneafk);
 		allButtons.add(soulwhipSS);
 		allButtons.add(teleporting);
 

@@ -99,16 +99,16 @@ public class farminggui extends GuiScreen {
 		} else if (button == backPage) {
 			mc.displayGuiScreen(new farminggui(page - 1));
 		} else if (button == Cane_Macro) {
-			farming.canefarming = !farming.canefarming;
-            Cane_Macro.displayString = "Enabled" + (farming.canefarming ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.canefarming;
+			farming.cane = !farming.cane;
+            Cane_Macro.displayString = "Enabled" + (farming.cane ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.cane;
             Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == Wart_Macro) {
-			farming.wartfarming = !farming.wartfarming;
-            Wart_Macro.displayString = "Enabled" + (farming.wartfarming ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.wartfarming;
+			farming.wart = !farming.wart;
+            Wart_Macro.displayString = "Enabled" + (farming.wart ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.wart;
             Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == Cane_Macro) {
-			farming.cropfarming = !farming.cropfarming;
-            Cane_Macro.displayString = "Enabled" + (farming.canefarming ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.canefarming;
+			farming.crops = !farming.crops;
+            Cane_Macro.displayString = "Enabled" + (farming.crops ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.crops;
             Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == Facing_start) {
             farming.direction++;
