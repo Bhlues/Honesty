@@ -53,7 +53,22 @@ public class location {
 			ScoreObjective scoreboardObj = mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(1);
 			if (scoreboardObj != null) {
 				String scObjName = scoreboard.cleanSB(scoreboardObj.getDisplayName().toLowerCase());
-				if (scObjName.contains("Divan's")) {
+				if (scObjName.contains("Divan")) {
+					divan = true;
+					return;
+				}
+			}
+		}
+		divan = false;
+	}
+
+	public static void checkDwarven() {
+		Minecraft mc = Minecraft.getMinecraft();
+		if (mc != null && mc.theWorld != null && !mc.isSingleplayer()) {
+			ScoreObjective scoreboardObj = mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(1);
+			if (scoreboardObj != null) {
+				String scObjName = scoreboard.cleanSB(scoreboardObj.getDisplayName().toLowerCase());
+				if (scObjName.contains("Forge")) {
 					divan = true;
 					return;
 				}

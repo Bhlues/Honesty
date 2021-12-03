@@ -152,7 +152,7 @@ public class farming {
 	}
 
 	public void hub() {
-		if (returning = true) {
+		if (returning) {
 			if (location.inSkyblock && !location.onIsland) {
 				if (wart) {
 					new Thread(() -> {
@@ -172,7 +172,7 @@ public class farming {
 						} catch (InterruptedException ex) {
 							ex.printStackTrace();
 						}
-					});
+					}).start();
 				} else if (cane) {
 					new Thread(() -> {
 						try {
@@ -191,7 +191,7 @@ public class farming {
 						} catch (InterruptedException ex) {
 							ex.printStackTrace();
 						}
-					});
+					}).start();
 				} else if (crops) {
 					new Thread(() -> {
 						try {
@@ -210,7 +210,7 @@ public class farming {
 						} catch (InterruptedException ex) {
 							ex.printStackTrace();
 						}
-					});
+					}).start();
 				}
 			}
 		}
