@@ -111,16 +111,16 @@ public class farminggui extends GuiScreen {
             Cane_Macro.displayString = "Enabled" + (farming.crops ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.crops;
             Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == Facing_start) {
-            farming.direction++;
-            if (farming.direction == 1) {
-              Facing_start.displayString = "Facing: East" + EnumChatFormatting.RED + "color coding werkt";
-            } else if (farming.direction == 2) {
-              Facing_start.displayString = "Facing: South" + EnumChatFormatting.GREEN + "color coding werkt";
-            } else if (farming.direction == 3) {
-              Facing_start.displayString = "Facing: West" + EnumChatFormatting.YELLOW + "color coding werkt";
+            farming.cropdirection++;
+            if (farming.cropdirection == 1) {
+              Facing_start.displayString = " Crop Facing: East" + EnumChatFormatting.RED + "color coding werkt";
+            } else if (farming.cropdirection == 2) {
+              Facing_start.displayString = "Crop Facing: South" + EnumChatFormatting.GREEN + "color coding werkt";
+            } else if (farming.cropdirection == 3) {
+              Facing_start.displayString = "Crop Facing: West" + EnumChatFormatting.YELLOW + "color coding werkt";
             } else {
-              Facing_start.displayString = "Facing: North" + EnumChatFormatting.BLUE + "color coding werkt";
-              farming.direction = 0;
+              Facing_start.displayString = "Crop Facing: North" + EnumChatFormatting.BLUE + "color coding werkt";
+              farming.cropdirection = 0;
             }
         }
     }

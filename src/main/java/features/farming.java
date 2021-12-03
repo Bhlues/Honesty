@@ -17,8 +17,8 @@ import utils.location;
 import utils.rotation;
 
 public class farming {
-	public static boolean active = false; // crops
-	public static boolean swap = false; // cane
+	public static boolean active = false; // crops swap walking direction
+	public static boolean swap = false; // cane swap walking direction
 	public static boolean farming = false; // any running
 	public static boolean facingwart = false;
 	public static boolean facingcrops = false;
@@ -46,7 +46,7 @@ public class farming {
 
 	public static int tick = 0;
 	public static int updater = 20;
-	public static int direction = 0;
+	public static int cropdirection = 0;
 
 	int delay = 0, errored = 0;
 	int random = 5;
@@ -82,9 +82,9 @@ public class farming {
 	}
 
 	public void DirectionCoordsZ() { // if facing ZCoords
-		if (direction == 0) {
+		if (cropdirection == 0) {
 			// TODO FacingX = ???
-		} else if (direction == 2) {
+		} else if (cropdirection == 2) {
 			// TODO FacringX = ???
 		} else {
 			FacingX = 0;
@@ -92,9 +92,9 @@ public class farming {
 	}
 
 	public void DirectionCoordsX() { // if facing XCoords
-		if (direction == 0) {
+		if (cropdirection == 0) {
 			// TODO FacingZ = ???
-		} else if (direction == 2) {
+		} else if (cropdirection == 2) {
 			// TODO FacringZ = ???
 		} else {
 			FacingZ = 0;
@@ -104,16 +104,64 @@ public class farming {
 	public void hub() {
 		if (returning = true) {
 			if (location.inSkyblock && !location.onIsland) {
-				tick++;
-				if (tick == 500)
-					tick = 1;
-				if (tick == 150) {
-					Minecraft.getMinecraft().thePlayer.sendChatMessage("/warp home");
+				if (wart) {
+					new Thread(() -> {
+						try {
+							wart = false;
+							KeyUp(attack);
+							KeyUp(place);
+							KeyUp(forward);
+							KeyUp(back);
+							KeyUp(left);
+							KeyUp(right);
+							KeyUp(jump);
+							Thread.sleep(new Random().nextInt(15000) + 10000);
+							Minecraft.getMinecraft().thePlayer.sendChatMessage("/warp home");
+							Thread.sleep(new Random().nextInt(15000) + 10000);
+							wart = true;
+						} catch (InterruptedException ex) {
+							ex.printStackTrace();
+						}
+					});
+				} else if (cane) {
+					new Thread(() -> {
+						try {
+							cane = false;
+							KeyUp(attack);
+							KeyUp(place);
+							KeyUp(forward);
+							KeyUp(back);
+							KeyUp(left);
+							KeyUp(right);
+							KeyUp(jump);
+							Thread.sleep(new Random().nextInt(15000) + 10000);
+							Minecraft.getMinecraft().thePlayer.sendChatMessage("/warp home");
+							Thread.sleep(new Random().nextInt(15000) + 10000);
+							cane = true;
+						} catch (InterruptedException ex) {
+							ex.printStackTrace();
+						}
+					});
+				} else if (crops) {
+					new Thread(() -> {
+						try {
+							crops = false;
+							KeyUp(attack);
+							KeyUp(place);
+							KeyUp(forward);
+							KeyUp(back);
+							KeyUp(left);
+							KeyUp(right);
+							KeyUp(jump);
+							Thread.sleep(new Random().nextInt(15000) + 10000);
+							Minecraft.getMinecraft().thePlayer.sendChatMessage("/warp home");
+							Thread.sleep(new Random().nextInt(15000) + 10000);
+							crops = true;
+						} catch (InterruptedException ex) {
+							ex.printStackTrace();
+						}
+					});
 				}
-				if (tick == 400) {
-					returning = false;
-				}
-
 			}
 		}
 	}
@@ -160,14 +208,12 @@ public class farming {
 			Minecraft.getMinecraft().thePlayer.addChatMessage(
 					new ChatComponentText(EnumChatFormatting.RED + "Required farming tool not in hotbar"));
 		}
-		if (tool != -1)
+		if (tool != -1 && location.onIsland)
 			Minecraft.getMinecraft().thePlayer.inventory.currentItem = tool;
 		Vec3 current = Minecraft.getMinecraft().thePlayer.getPositionVector();
 		rotation.facePos(new Vec3(current.xCoord, current.yCoord + 1.875, current.zCoord + 1));
 		KeyDown(attack);
-		delay++;
-		int PosX = Minecraft.getMinecraft().thePlayer.getPosition().getX();
-		if (PosX == 88 || PosX == 83) { // TODO facing netherwart?????
+		if (location.onIsland) {
 			KeyDown(attack);
 			tick++;
 			if (tick == 20)
@@ -176,11 +222,11 @@ public class farming {
 				OldY = Minecraft.getMinecraft().thePlayer.getPosition().getY();
 			OldX = Minecraft.getMinecraft().thePlayer.getPosition().getX();
 			OldZ = Minecraft.getMinecraft().thePlayer.getPosition().getZ();
-			if (tick == 10 && stuck) {
+			if (tick == 8 && stuck) {
 				if (OldY != Minecraft.getMinecraft().thePlayer.getPosition().getY()) {
 					active = !active;
 				}
-				if (tick == 15) {
+				if (tick == 13) {
 					if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
 							&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ())
 						;
@@ -218,7 +264,7 @@ public class farming {
 						KeyBinding space = Minecraft.getMinecraft().gameSettings.keyBindJump;
 						KeyBinding left = Minecraft.getMinecraft().gameSettings.keyBindLeft;
 						KeyBinding right = Minecraft.getMinecraft().gameSettings.keyBindRight;
-						Thread.sleep(new Random().nextInt(75) + 50);
+						Thread.sleep(new Random().nextInt(250) + 500);
 						KeyDown(space);
 						Thread.sleep(new Random().nextInt(75) + 50);
 						KeyDown(left);
@@ -248,6 +294,7 @@ public class farming {
 				random = new Random().nextInt(100) + 100;
 				new Thread(() -> {
 					try {
+						wart = false;
 						KeyBinding space = Minecraft.getMinecraft().gameSettings.keyBindJump;
 						KeyBinding left = Minecraft.getMinecraft().gameSettings.keyBindLeft;
 						KeyBinding right = Minecraft.getMinecraft().gameSettings.keyBindRight;
@@ -261,6 +308,7 @@ public class farming {
 						KeyDown(right);
 						Thread.sleep(new Random().nextInt(500) + 250);
 						KeyUp(right);
+						wart = true;
 					} catch (InterruptedException ex) {
 						ex.printStackTrace();
 					}
@@ -326,15 +374,29 @@ public class farming {
 	}
 
 	public void disable() {
-		farming = false;
+		active = false; // crops swap walking direction
+		swap = false; // cane swap walking direction
+		farming = false; // any running
+		facingwart = false;
+		facingcrops = false;
+		facingcane = false;
 		leftClick = false;
 		rightClick = false;
 		wart = false;
 		cane = false;
 		crops = false;
+		CropsFarmingCheck = false;
+		CaneFarmingCheck = false;
+		stuck = false;
+		pause = false;
+		returning = false;
+		TeleporterCrops = false;
+		TeleporterCane = false;
 		OldY = 0;
 		delay = 0;
 		errored = 0;
+		FacingX = 0;
+		FacingZ = 0;
 		KeyUp(attack);
 		KeyUp(place);
 		KeyUp(forward);
