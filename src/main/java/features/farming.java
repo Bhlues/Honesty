@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+import org.lwjgl.input.Keyboard;
+
+import honesty.Main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -12,6 +15,9 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import utils.location;
 import utils.rotation;
@@ -43,6 +49,12 @@ public class farming {
 	KeyBinding left = Minecraft.getMinecraft().gameSettings.keyBindLeft;
 	KeyBinding right = Minecraft.getMinecraft().gameSettings.keyBindRight;
 	KeyBinding jump = Minecraft.getMinecraft().gameSettings.keyBindJump;
+
+	private static final KeyBinding SWAP_KEY = new KeyBinding("Turn off all farming macro's", Keyboard.KEY_PERIOD,
+			Main.MODID);
+	static {
+		ClientRegistry.registerKeyBinding(SWAP_KEY);
+	}
 
 	public static int tick = 0;
 	public static int updater = 20;
@@ -79,6 +91,44 @@ public class farming {
 			}
 		}
 		return -1;
+	}
+
+	@SubscribeEvent
+	public void onKeyEvent(KeyInputEvent e) {
+		if (SWAP_KEY.isPressed()) {
+			active = false; // crops swap walking direction
+			swap = false; // cane swap walking direction
+			farming = false; // any running
+			facingwart = false;
+			facingcrops = false;
+			facingcane = false;
+			leftClick = false;
+			rightClick = false;
+			wart = false;
+			cane = false;
+			crops = false;
+			CropsFarmingCheck = false;
+			CaneFarmingCheck = false;
+			stuck = false;
+			pause = false;
+			returning = false;
+			TeleporterCrops = false;
+			TeleporterCane = false;
+			OldY = 0;
+			delay = 0;
+			errored = 0;
+			FacingX = 0;
+			FacingZ = 0;
+			KeyUp(attack);
+			KeyUp(place);
+			KeyUp(forward);
+			KeyUp(back);
+			KeyUp(left);
+			KeyUp(right);
+			KeyUp(jump);
+			Minecraft.getMinecraft().thePlayer
+					.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Turned off all farming macro's"));
+		}
 	}
 
 	public void DirectionCoordsZ() { // if facing ZCoords
@@ -289,39 +339,40 @@ public class farming {
 	}
 
 	public void CaneMovement() {
-		if (CaneFarmingCheck) {
-			if (stuck) {
-				random = new Random().nextInt(100) + 100;
-				new Thread(() -> {
-					try {
-						wart = false;
-						KeyBinding space = Minecraft.getMinecraft().gameSettings.keyBindJump;
-						KeyBinding left = Minecraft.getMinecraft().gameSettings.keyBindLeft;
-						KeyBinding right = Minecraft.getMinecraft().gameSettings.keyBindRight;
-						Thread.sleep(new Random().nextInt(75) + 50);
-						KeyDown(space);
-						Thread.sleep(new Random().nextInt(75) + 50);
-						KeyDown(left);
-						KeyUp(space);
-						Thread.sleep(new Random().nextInt(500) + 250);
-						KeyUp(left);
-						KeyDown(right);
-						Thread.sleep(new Random().nextInt(500) + 250);
-						KeyUp(right);
-						wart = true;
-					} catch (InterruptedException ex) {
-						ex.printStackTrace();
-					}
-				});
-			} else if (swap) {
-				KeyUp(back);
-				KeyDown(right);
-			} else {
-				KeyUp(right);
-				KeyDown(left);
+		if (location.onIsland) {
+			if (CaneFarmingCheck) {
+				if (stuck) {
+					random = new Random().nextInt(100) + 100;
+					new Thread(() -> {
+						try {
+							wart = false;
+							KeyBinding space = Minecraft.getMinecraft().gameSettings.keyBindJump;
+							KeyBinding left = Minecraft.getMinecraft().gameSettings.keyBindLeft;
+							KeyBinding right = Minecraft.getMinecraft().gameSettings.keyBindRight;
+							Thread.sleep(new Random().nextInt(75) + 50);
+							KeyDown(space);
+							Thread.sleep(new Random().nextInt(75) + 50);
+							KeyDown(left);
+							KeyUp(space);
+							Thread.sleep(new Random().nextInt(500) + 250);
+							KeyUp(left);
+							KeyDown(right);
+							Thread.sleep(new Random().nextInt(500) + 250);
+							KeyUp(right);
+							wart = true;
+						} catch (InterruptedException ex) {
+							ex.printStackTrace();
+						}
+					});
+				} else if (swap) {
+					KeyUp(back);
+					KeyDown(right);
+				} else {
+					KeyUp(right);
+					KeyDown(left);
+				}
 			}
 		}
-
 	}
 
 	public void pause() {
