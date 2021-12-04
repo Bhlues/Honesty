@@ -9,7 +9,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.Vec3;
+import utils.rotation;
 
 public class farminggui extends GuiScreen {
 
@@ -49,7 +52,7 @@ public class farminggui extends GuiScreen {
 		int height = sr.getScaledHeight();
 		int width = sr.getScaledWidth();
 
-		closeGui = new GuiButton(0, width / 2 - 100, (int) (height + 0.9), "Close");
+		closeGui = new GuiButton(0, width / 2 - 100, (int) (height * 0.9), "Back main gui");
 		backPage = new GuiButton(0, width / 2 - 100, (int) (height * 0.8), 80, 20, "< Back");
 		nextPage = new GuiButton(0, width / 2 + 20, (int) (height * 0.8), 80, 20, "Next >");
 
@@ -100,14 +103,19 @@ public class farminggui extends GuiScreen {
 			mc.displayGuiScreen(new farminggui(page - 1));
 		} else if (button == Cane_Macro) {
 			farming.cane = !farming.cane;
+			farming.running();
             Cane_Macro.displayString = "Enabled" + (farming.cane ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.cane;
             Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == Wart_Macro) {
 			farming.wart = !farming.wart;
+			farming.running();
             Wart_Macro.displayString = "Enabled" + (farming.wart ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.wart;
             Minecraft.getMinecraft().thePlayer.closeScreen();
+    		BlockPos wart = Minecraft.getMinecraft().thePlayer.getPosition().add(0, 1.6, 4);
+    		rotation.facePos(new Vec3(Minecraft.getMinecraft().thePlayer.getPositionVector().xCoord, wart.getY(), wart.getZ()));
 		} else if (button == Cane_Macro) {
 			farming.crops = !farming.crops;
+			farming.running();
             Cane_Macro.displayString = "Enabled" + (farming.crops ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.crops;
             Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == Facing_start) {

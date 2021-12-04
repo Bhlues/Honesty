@@ -48,7 +48,7 @@ public class honestygui extends GuiScreen {
 		int height = sr.getScaledHeight();
 		int width = sr.getScaledWidth();
 
-		closeGUI = new GuiButton(0, width / 2 - 100, (int) (height + 0.9), "Close");
+		closeGUI = new GuiButton(0, width / 2 - 100, (int) (height * 0.9), "Close");
 		backPage = new GuiButton(0, width / 2 - 100, (int) (height * 0.8), 80, 20, "< Back");
 		nextPage = new GuiButton(0, width / 2 + 20, (int) (height * 0.8), 80, 20, "Next >");
 

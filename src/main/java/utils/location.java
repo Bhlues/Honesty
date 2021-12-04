@@ -1,8 +1,9 @@
 package utils;
 
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.scoreboard.ScoreObjective;
-import net.minecraft.util.EnumChatFormatting;
 
 public class location {
     public static boolean inSkyblock = false;
@@ -37,10 +38,12 @@ public class location {
 		if (mc != null && mc.theWorld != null && !mc.isSingleplayer()) {
 			ScoreObjective scoreboardObj = mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(1);
 			if (scoreboardObj != null) {
-				String scObjName = scoreboard.cleanSB(scoreboardObj.getDisplayName().toLowerCase());
-				if (scObjName.contains("Your Island")) {
-					onIsland = true;
-					return;
+				List<String> lines = scoreboard.getSidebarLines();
+				for (String line : lines) {
+					if (scoreboard.cleanSB(line).contains("Your Island")) {
+						onIsland = true;
+						return;
+					}
 				}
 			}
 		}

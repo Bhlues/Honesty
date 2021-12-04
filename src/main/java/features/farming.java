@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.Vec3;
@@ -56,7 +57,7 @@ public class farming {
 		ClientRegistry.registerKeyBinding(SWAP_KEY);
 	}
 
-	public static int tick = 0;
+	public static int tick = 20;
 	public static int updater = 20;
 	public static int cropdirection = 0;
 
@@ -169,6 +170,9 @@ public class farming {
 							Minecraft.getMinecraft().thePlayer.sendChatMessage("/warp home");
 							Thread.sleep(new Random().nextInt(15000) + 10000);
 							wart = true;
+							running();
+							BlockPos wart = Minecraft.getMinecraft().thePlayer.getPosition().add(0, 1.6, 4);
+							rotation.facePos(new Vec3(Minecraft.getMinecraft().thePlayer.getPositionVector().xCoord, wart.getY(), wart.getZ()));
 						} catch (InterruptedException ex) {
 							ex.printStackTrace();
 						}
@@ -188,6 +192,7 @@ public class farming {
 							Minecraft.getMinecraft().thePlayer.sendChatMessage("/warp home");
 							Thread.sleep(new Random().nextInt(15000) + 10000);
 							cane = true;
+							running();
 						} catch (InterruptedException ex) {
 							ex.printStackTrace();
 						}
@@ -207,6 +212,7 @@ public class farming {
 							Minecraft.getMinecraft().thePlayer.sendChatMessage("/warp home");
 							Thread.sleep(new Random().nextInt(15000) + 10000);
 							crops = true;
+							running();
 						} catch (InterruptedException ex) {
 							ex.printStackTrace();
 						}
@@ -216,7 +222,7 @@ public class farming {
 		}
 	}
 
-	public void running() {
+	public static void running() {
 		if (wart || crops) {
 			CropsFarmingCheck = true;
 			farming = true;
@@ -226,6 +232,7 @@ public class farming {
 		}
 	}
 
+	@SubscribeEvent
 	public void OnTick(TickEvent.ClientTickEvent e) {
 		if (e.phase != TickEvent.Phase.START)
 			return;
@@ -233,23 +240,25 @@ public class farming {
 		// return;
 		tick++;
 		if (tick > updater) {
-			if (farming) {
-				if (location.onIsland) {
-					if (wart)
-						WartFarmer();
-					if (cane)
-						CaneFarmer();
-					if (crops)
-						CropFarmer();
-				} else {
-					returning = true;
-					pause();
-				}
-			}
+			location.checkForSkyblock();
+			location.checkForIsland();
 			tick = 1;
-
 		}
-
+		if (farming) {
+			if (location.onIsland) {
+				if (wart)
+					WartFarmer();
+				if (cane)
+					CaneFarmer();
+				if (crops)
+					CropFarmer();
+			} else {
+				farming = false;
+				returning = true;
+				hub();
+//				pause();
+			}
+		}
 	}
 
 	public void WartFarmer() {
@@ -257,37 +266,29 @@ public class farming {
 		if (tool == -1) {
 			Minecraft.getMinecraft().thePlayer.addChatMessage(
 					new ChatComponentText(EnumChatFormatting.RED + "Required farming tool not in hotbar"));
+			return;
 		}
-		if (tool != -1 && location.onIsland)
+		if (tool != -1)
 			Minecraft.getMinecraft().thePlayer.inventory.currentItem = tool;
-		Vec3 current = Minecraft.getMinecraft().thePlayer.getPositionVector();
-		rotation.facePos(new Vec3(current.xCoord, current.yCoord + 1.875, current.zCoord + 1));
 		KeyDown(attack);
-		if (location.onIsland) {
-			KeyDown(attack);
-			tick++;
-			if (tick == 20)
-				tick = 1;
-			if (tick == 2)
-				OldY = Minecraft.getMinecraft().thePlayer.getPosition().getY();
-			OldX = Minecraft.getMinecraft().thePlayer.getPosition().getX();
-			OldZ = Minecraft.getMinecraft().thePlayer.getPosition().getZ();
-			if (tick == 8 && stuck) {
-				if (OldY != Minecraft.getMinecraft().thePlayer.getPosition().getY()) {
-					active = !active;
-				}
-				if (tick == 13) {
-					if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
-							&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ())
-						;
-					active = !active;
-				}
-				if (tick == 19) {
-					if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
-							&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ())
-						;
+		CropsMovement();
+		if (tick == 2)
+			OldY = Minecraft.getMinecraft().thePlayer.getPosition().getY();
+		OldX = Minecraft.getMinecraft().thePlayer.getPosition().getX();
+		OldZ = Minecraft.getMinecraft().thePlayer.getPosition().getZ();
+		if (tick == 8 && !stuck) {
+			if (OldY != Minecraft.getMinecraft().thePlayer.getPosition().getY()) {
+				active = !active;
+			}
+			if (tick == 14) {
+				if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
+						&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ())
+					active = !active; // swap direction
+			}
+			if (tick == 19) {
+				if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
+						&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ())
 					stuck = true;
-				}
 			}
 		}
 	}
@@ -422,6 +423,7 @@ public class farming {
 			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(
 					EnumChatFormatting.AQUA + "Farming paused:" + EnumChatFormatting.DARK_RED + "Due to server close"));
 		returning = true;
+		hub();
 	}
 
 	public void disable() {

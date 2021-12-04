@@ -75,7 +75,7 @@ public class mining {
         }
     }
 
-    }
+    
 
     public void jade() {
 
