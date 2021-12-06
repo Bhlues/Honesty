@@ -171,8 +171,9 @@ public class farming {
 							Thread.sleep(new Random().nextInt(15000) + 10000);
 							wart = true;
 							running();
-							BlockPos wart = Minecraft.getMinecraft().thePlayer.getPosition().add(0, 1.6, 4);
-							rotation.facePos(new Vec3(Minecraft.getMinecraft().thePlayer.getPositionVector().xCoord, wart.getY(), wart.getZ()));
+							BlockPos wart = Minecraft.getMinecraft().thePlayer.getPosition().add(0, 0.6, 4);
+							rotation.facePos(new Vec3(Minecraft.getMinecraft().thePlayer.getPositionVector().xCoord,
+									wart.getY(), wart.getZ()));
 						} catch (InterruptedException ex) {
 							ex.printStackTrace();
 						}
@@ -246,12 +247,17 @@ public class farming {
 		}
 		if (farming) {
 			if (location.onIsland) {
-				if (wart)
+				if (wart) {
 					WartFarmer();
-				if (cane)
+					Minecraft.getMinecraft().thePlayer
+							.addChatMessage(new ChatComponentText(EnumChatFormatting.DARK_PURPLE + "Wart started"));
+				}
+				if (cane) {
 					CaneFarmer();
-				if (crops)
+				}
+				if (crops) {
 					CropFarmer();
+				}
 			} else {
 				farming = false;
 				returning = true;
@@ -268,27 +274,41 @@ public class farming {
 					new ChatComponentText(EnumChatFormatting.RED + "Required farming tool not in hotbar"));
 			return;
 		}
-		if (tool != -1)
+		if (tool != -1) {
 			Minecraft.getMinecraft().thePlayer.inventory.currentItem = tool;
-		KeyDown(attack);
-		CropsMovement();
-		if (tick == 2)
-			OldY = Minecraft.getMinecraft().thePlayer.getPosition().getY();
-		OldX = Minecraft.getMinecraft().thePlayer.getPosition().getX();
-		OldZ = Minecraft.getMinecraft().thePlayer.getPosition().getZ();
-		if (tick == 8 && !stuck) {
-			if (OldY != Minecraft.getMinecraft().thePlayer.getPosition().getY()) {
-				active = !active;
-			}
-			if (tick == 14) {
-				if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
-						&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ())
-					active = !active; // swap direction
-			}
-			if (tick == 19) {
-				if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
-						&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ())
-					stuck = true;
+			KeyDown(attack);
+			CropsMovement();
+			Minecraft.getMinecraft().thePlayer
+					.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Farming tool in hotbar"));
+			if (tick == 2) {
+				OldY = Minecraft.getMinecraft().thePlayer.getPosition().getY();
+				OldX = Minecraft.getMinecraft().thePlayer.getPosition().getX();
+				OldZ = Minecraft.getMinecraft().thePlayer.getPosition().getZ();
+				Minecraft.getMinecraft().thePlayer
+						.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Gets old coords"));
+				if (tick == 8 && !stuck) {
+					if (OldY != Minecraft.getMinecraft().thePlayer.getPosition().getY()) {
+						active = !active;
+						Minecraft.getMinecraft().thePlayer
+								.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Swaps and falls"));
+					}
+					if (tick == 14) {
+						if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
+								&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ()) {
+							active = !active; // swap direction
+							Minecraft.getMinecraft().thePlayer.addChatMessage(
+									new ChatComponentText(EnumChatFormatting.RED + "Swapping directions"));
+						}
+					}
+					if (tick == 19) {
+						if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
+								&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ()) {
+							stuck = true;
+							Minecraft.getMinecraft().thePlayer
+									.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Stuck"));
+						}
+					}
+				}
 			}
 		}
 	}
@@ -301,6 +321,8 @@ public class farming {
 			}
 		}
 	}
+	
+	
 
 	public void CaneFarmer() {
 		KeyDown(attack);

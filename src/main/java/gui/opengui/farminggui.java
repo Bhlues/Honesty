@@ -52,13 +52,13 @@ public class farminggui extends GuiScreen {
 		int height = sr.getScaledHeight();
 		int width = sr.getScaledWidth();
 
-		closeGui = new GuiButton(0, width / 2 - 100, (int) (height * 0.9), "Back main gui");
+		closeGui = new GuiButton(0, width / 2 - 100, (int) (height * 0.9), "Back Main Gui");
 		backPage = new GuiButton(0, width / 2 - 100, (int) (height * 0.8), 80, 20, "< Back");
 		nextPage = new GuiButton(0, width / 2 + 20, (int) (height * 0.8), 80, 20, "Next >");
 
-		Cane_Macro = new GuiButton(0, 0, 0, "Cane:");
-		Wart_Macro = new GuiButton(0, 0, 0, "Wart:");
-		Crop_Macro = new GuiButton(0, 0, 0, "Crops:");
+		Cane_Macro = new GuiButton(0, 0, 0, "Cane: " + (farming.cane ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.cane);
+		Wart_Macro = new GuiButton(0, 0, 0, "Wart: " + (farming.wart ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.wart);
+		Crop_Macro = new GuiButton(0, 0, 0, "Crops: " + (farming.crops ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.crops);
         Facing_start = new GuiButton (0, 0, 0, "Directions");
 
 		allButtons.add(Cane_Macro);
@@ -111,7 +111,7 @@ public class farminggui extends GuiScreen {
 			farming.running();
             Wart_Macro.displayString = "Enabled" + (farming.wart ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.wart;
             Minecraft.getMinecraft().thePlayer.closeScreen();
-    		BlockPos wart = Minecraft.getMinecraft().thePlayer.getPosition().add(0, 1.6, 4);
+    		BlockPos wart = Minecraft.getMinecraft().thePlayer.getPosition().add(0, 0.1, 4);
     		rotation.facePos(new Vec3(Minecraft.getMinecraft().thePlayer.getPositionVector().xCoord, wart.getY(), wart.getZ()));
 		} else if (button == Cane_Macro) {
 			farming.crops = !farming.crops;
