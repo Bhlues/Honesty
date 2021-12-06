@@ -103,19 +103,19 @@ public class farminggui extends GuiScreen {
 			mc.displayGuiScreen(new farminggui(page - 1));
 		} else if (button == Cane_Macro) {
 			farming.cane = !farming.cane;
-			farming.running();
+			farming.farming = !farming.farming;
             Cane_Macro.displayString = "Enabled" + (farming.cane ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.cane;
             Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == Wart_Macro) {
 			farming.wart = !farming.wart;
-			farming.running();
+			farming.farming = !farming.farming;
             Wart_Macro.displayString = "Enabled" + (farming.wart ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.wart;
             Minecraft.getMinecraft().thePlayer.closeScreen();
     		BlockPos wart = Minecraft.getMinecraft().thePlayer.getPosition().add(0, 0.1, 4);
     		rotation.facePos(new Vec3(Minecraft.getMinecraft().thePlayer.getPositionVector().xCoord, wart.getY(), wart.getZ()));
 		} else if (button == Cane_Macro) {
 			farming.crops = !farming.crops;
-			farming.running();
+			farming.farming = !farming.farming;
             Cane_Macro.displayString = "Enabled" + (farming.crops ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + farming.crops;
             Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == Facing_start) {

@@ -5,10 +5,12 @@ import org.lwjgl.input.Keyboard;
 
 import features.corleone;
 import features.farming;
+import features.mining;
 import features.soulwhip;
 import features.teleport;
 import gui.honestygui;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -16,7 +18,6 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
-import net.minecraft.client.settings.KeyBinding;
 import utils.rotation;
 
 @Mod(modid = Main.MODID, version = Main.VERSION)
@@ -34,6 +35,7 @@ public class Main {
 		MinecraftForge.EVENT_BUS.register(new teleport());
 		MinecraftForge.EVENT_BUS.register(new farming());
 		MinecraftForge.EVENT_BUS.register(new rotation());
+		MinecraftForge.EVENT_BUS.register(new mining());
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 

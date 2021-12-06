@@ -2,15 +2,17 @@ package features;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.event.world.WorldEvent;
-import utils.location;
 
 public class mining {
     public static boolean mithril = false;
@@ -53,15 +55,10 @@ public class mining {
      * }
      */
 
-    public void miningactive() {
-        if (mithrilmining) {
-            mithril();
-        } else if (jademining) {
-            jade();
-        } else if (powder) {
-            powder();
-        }
+    public void refuel() {
+        
     }
+
 
     public void mithril() {
         for (String gear : tool) {
@@ -71,10 +68,21 @@ public class mining {
                     if (SlotTool < 0)
                         return;
                     Minecraft.getMinecraft().thePlayer.inventory.currentItem = SlotTool;
+                    mithrildwarven();
                 }
         }
     }
 
+    public void mithrildwarven() {        
+        MovingObjectPosition objectMouseOver = Minecraft.getMinecraft().objectMouseOver;
+        if (objectMouseOver != null && objectMouseOver.typeOfHit.toString() == "wool") {
+            BlockPos pos = objectMouseOver.getBlockPos();
+            Block block = Minecraft.getMinecraft().theWorld.getBlockState(pos).getBlock();
+            if  (block == Blocks.wool) {
+                //TODO Actie
+            }
+        }
+    }
     
 
     public void jade() {
