@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -23,6 +24,8 @@ public class mining {
     public static boolean jademining = false;
     public static boolean powder = false;
 
+    KeyBinding attack = Minecraft.getMinecraft().gameSettings.keyBindAttack;
+
     ArrayList<String> tool = new ArrayList<>(Arrays.asList("gauntlet", "x655"));
 
     private static boolean returning = false;
@@ -39,6 +42,16 @@ public class mining {
         }
         return -1;
     }
+
+    private static void KeyDown(KeyBinding key) {
+		if (!key.isKeyDown())
+			KeyBinding.setKeyBindState(key.getKeyCode(), true);
+	}
+
+	private static void KeyUp(KeyBinding key) {
+		if (key.isKeyDown())
+			KeyBinding.setKeyBindState(key.getKeyCode(), false);
+	}
 
     /*
      * public void hub() {
@@ -79,7 +92,12 @@ public class mining {
             BlockPos pos = objectMouseOver.getBlockPos();
             Block block = Minecraft.getMinecraft().theWorld.getBlockState(pos).getBlock();
             if  (block == Blocks.wool) {
-                //TODO Actie
+                KeyDown(attack);
+            } else if (block == Blocks.prismarine) {
+                KeyDown(attack);
+            } else if (block == Blocks.bedrock) {
+                //TODO get vec3 new block
+                KeyUp(attack);
             }
         }
     }
