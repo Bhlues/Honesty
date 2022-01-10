@@ -22,6 +22,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import utils.location;
 import utils.rotation;
+import net.minecraft.block.*;
 
 public class farming {
 	public static boolean active = false; // crops swap walking direction
@@ -71,6 +72,7 @@ public class farming {
 
 	ArrayList<String> CropTools = new ArrayList<>(Arrays.asList("Euclid", "Pythagorean", "Gauss"));
 
+	
 	private static void KeyDown(KeyBinding key) {
 		if (!key.isKeyDown())
 			KeyBinding.setKeyBindState(key.getKeyCode(), true);
@@ -280,35 +282,36 @@ public class farming {
 			CropsMovement();
 			Minecraft.getMinecraft().thePlayer
 					.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Farming tool in hotbar"));
-			if (tick == 2) {
-				OldY = Minecraft.getMinecraft().thePlayer.getPosition().getY();
-				OldX = Minecraft.getMinecraft().thePlayer.getPosition().getX();
-				OldZ = Minecraft.getMinecraft().thePlayer.getPosition().getZ();
+		}
+		if (tick == 2) {
+			OldY = Minecraft.getMinecraft().thePlayer.getPosition().getY();
+			OldX = Minecraft.getMinecraft().thePlayer.getPosition().getX();
+			OldZ = Minecraft.getMinecraft().thePlayer.getPosition().getZ();
+			Minecraft.getMinecraft().thePlayer
+					.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Gets old coords"));
+		}
+		if (tick == 8 && !stuck) {
+			if (OldY != Minecraft.getMinecraft().thePlayer.getPosition().getY()) {
+				active = !active;
 				Minecraft.getMinecraft().thePlayer
-						.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Gets old coords"));
-				if (tick == 8 && !stuck) {
-					if (OldY != Minecraft.getMinecraft().thePlayer.getPosition().getY()) {
-						active = !active;
-						Minecraft.getMinecraft().thePlayer
-								.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Swaps and falls"));
-					}
-					if (tick == 14) {
-						if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
-								&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ()) {
-							active = !active; // swap direction
-							Minecraft.getMinecraft().thePlayer.addChatMessage(
-									new ChatComponentText(EnumChatFormatting.RED + "Swapping directions"));
-						}
-					}
-					if (tick == 19) {
-						if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
-								&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ()) {
-							stuck = true;
-							Minecraft.getMinecraft().thePlayer
-									.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Stuck"));
-						}
-					}
-				}
+						.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Swaps and falls"));
+
+			}
+		}
+		if (tick == 14) {
+			if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
+					&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ()) {
+				active = !active; // swap direction
+				Minecraft.getMinecraft().thePlayer
+						.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Swapping directions"));
+			}
+		}
+		if (tick == 19) {
+			if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
+					&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ()) {
+				stuck = true;
+				Minecraft.getMinecraft().thePlayer
+						.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Stuck"));
 			}
 		}
 	}
@@ -321,8 +324,6 @@ public class farming {
 			}
 		}
 	}
-	
-	
 
 	public void CaneFarmer() {
 		KeyDown(attack);
