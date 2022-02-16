@@ -72,7 +72,6 @@ public class farming {
 
 	ArrayList<String> CropTools = new ArrayList<>(Arrays.asList("Euclid", "Pythagorean", "Gauss"));
 
-	
 	private static void KeyDown(KeyBinding key) {
 		if (!key.isKeyDown())
 			KeyBinding.setKeyBindState(key.getKeyCode(), true);
@@ -289,29 +288,29 @@ public class farming {
 			OldZ = Minecraft.getMinecraft().thePlayer.getPosition().getZ();
 			Minecraft.getMinecraft().thePlayer
 					.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Gets old coords"));
-		}
-		if (tick == 8 && !stuck) {
-			if (OldY != Minecraft.getMinecraft().thePlayer.getPosition().getY()) {
-				active = !active;
-				Minecraft.getMinecraft().thePlayer
-						.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Swaps and falls"));
+			if (tick == 8 && !stuck) {
+				if (OldY != Minecraft.getMinecraft().thePlayer.getPosition().getY()) {
+					active = !active;
+					Minecraft.getMinecraft().thePlayer
+							.addChatMessage(new ChatComponentText(EnumChatFormatting.GREEN + "Swaps and falls"));
 
-			}
-		}
-		if (tick == 14) {
-			if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
-					&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ()) {
-				active = !active; // swap direction
-				Minecraft.getMinecraft().thePlayer
-						.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Swapping directions"));
-			}
-		}
-		if (tick == 19) {
-			if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
-					&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ()) {
-				stuck = true;
-				Minecraft.getMinecraft().thePlayer
-						.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Stuck"));
+				}
+				if (tick == 14) {
+					if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
+							&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ()) {
+						active = !active; // swap direction
+						Minecraft.getMinecraft().thePlayer
+								.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Swapping directions"));
+					}
+					if (tick == 19) {
+						if (OldX == Minecraft.getMinecraft().thePlayer.getPosition().getX()
+								&& OldZ == Minecraft.getMinecraft().thePlayer.getPosition().getZ()) {
+							stuck = true;
+							Minecraft.getMinecraft().thePlayer
+									.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Stuck"));
+						}
+					}
+				}
 			}
 		}
 	}

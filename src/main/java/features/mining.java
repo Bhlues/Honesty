@@ -17,12 +17,14 @@ import net.minecraftforge.event.world.WorldEvent;
 
 public class mining {
     public static boolean mithril = false;
-    public static boolean gems = false;
+    public static boolean jade = false;
     public static boolean mines = false;
     public static boolean hollows = false;
     public static boolean mithrilmining = false;
     public static boolean jademining = false;
     public static boolean powder = false;
+    public static boolean ruby = false;
+    public static boolean topaz = false;
 
     KeyBinding attack = Minecraft.getMinecraft().gameSettings.keyBindAttack;
 

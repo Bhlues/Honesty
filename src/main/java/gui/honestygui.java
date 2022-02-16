@@ -6,6 +6,7 @@ import java.util.List;
 import features.corleone;
 import features.soulwhip;
 import features.teleport;
+import features.perspective;
 import gui.opengui.farminggui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -30,6 +31,7 @@ public class honestygui extends GuiScreen {
 	private GuiButton farmingbutton;
 	private GuiButton soulwhipSS;
 	private GuiButton teleporting;
+	private GuiButton perspective;
 
 	public honestygui(int page) {
 		this.page = page;
@@ -64,6 +66,7 @@ public class honestygui extends GuiScreen {
 		allButtons.add(corleoneafk);
 		allButtons.add(soulwhipSS);
 		allButtons.add(teleporting);
+		allButtons.add(perspective);
 
 		reInit();
 	}
@@ -115,6 +118,11 @@ public class honestygui extends GuiScreen {
 					+ (teleport.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active;
 		} else if (button == farmingbutton) {
 			Minecraft.getMinecraft().displayGuiScreen(new farminggui(1));
+		} else if (button == perspective) {
+			perspective.perspective = !corleone.afk;
+			corleoneafk.displayString = "Corleone AFK: " + (corleone.afk ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
+					+ corleone.afk;
+					Minecraft.getMinecraft().thePlayer.closeScreen();
 		}
 	}
 }
