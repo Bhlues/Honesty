@@ -1,28 +1,22 @@
 package features;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
+import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
 
 
 public class perspective {
 
-	public boolean persepective = false;
-    private final Config config = Honesty.getInstance().getConfig();
+	public static boolean togglef5 = false;
+   
 
     // InputEvent has to be the absolute worst event in forge
     @SubscribeEvent
     public void onKey(InputEvent.KeyInputEvent event) {
-        if (!config.perspective) return;
+        if (!togglef5) return;
         if (!Keyboard.getEventKeyState()) return;
         if (Keyboard.getEventKey() == Minecraft.getMinecraft().gameSettings.keyBindTogglePerspective.getKeyCode()) {
             if (Minecraft.getMinecraft().gameSettings.thirdPersonView == 2) {

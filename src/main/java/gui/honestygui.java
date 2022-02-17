@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import features.corleone;
-import features.soulwhip;
-import features.teleport;
 import features.perspective;
+import features.soulwhip;
 import gui.opengui.farminggui;
+import gui.opengui.otheritemsgui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -30,8 +30,8 @@ public class honestygui extends GuiScreen {
 	private GuiButton corleoneafk;
 	private GuiButton farmingbutton;
 	private GuiButton soulwhipSS;
-	private GuiButton teleporting;
-	private GuiButton perspective;
+	private GuiButton itemswithother;
+	private GuiButton perspectivef5;
 
 	public honestygui(int page) {
 		this.page = page;
@@ -59,14 +59,15 @@ public class honestygui extends GuiScreen {
 				+ corleone.afk);
 		soulwhipSS = new GuiButton(0, 0, 0, "Soulwhip Swordswap: "
 				+ (soulwhip.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + soulwhip.active);
-		teleporting = new GuiButton(0, 0, 0, "More Teleporting Items: "
-				+ (teleport.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active);
+		itemswithother = new GuiButton(0, 0, 0, "Items with other items");
+		perspectivef5 = new GuiButton(0, 0, 0, "Remove Second Person: "
+				+ (perspective.togglef5 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + perspective.togglef5);
 
 		allButtons.add(farmingbutton);
 		allButtons.add(corleoneafk);
 		allButtons.add(soulwhipSS);
-		allButtons.add(teleporting);
-		allButtons.add(perspective);
+		allButtons.add(itemswithother);
+		allButtons.add(perspectivef5);
 
 		reInit();
 	}
@@ -112,16 +113,14 @@ public class honestygui extends GuiScreen {
 			soulwhipSS.displayString = "Soulwhip Swordswap: "
 					+ (soulwhip.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + soulwhip.active;
 					Minecraft.getMinecraft().thePlayer.closeScreen();
-		} else if (button == teleporting) {
-			teleport.active = !teleport.active;
-			teleporting.displayString = "More Teleporting Items: "
-					+ (teleport.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active;
+		} else if (button == itemswithother) {
+			Minecraft.getMinecraft().displayGuiScreen(new otheritemsgui(1));
 		} else if (button == farmingbutton) {
 			Minecraft.getMinecraft().displayGuiScreen(new farminggui(1));
-		} else if (button == perspective) {
-			perspective.perspective = !corleone.afk;
-			corleoneafk.displayString = "Corleone AFK: " + (corleone.afk ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
-					+ corleone.afk;
+		} else if (button == perspectivef5) {
+			perspective.togglef5 = !perspective.togglef5;
+			perspectivef5.displayString = "Remove Second Person: " + (perspective.togglef5 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
+					+ perspective.togglef5;
 					Minecraft.getMinecraft().thePlayer.closeScreen();
 		}
 	}

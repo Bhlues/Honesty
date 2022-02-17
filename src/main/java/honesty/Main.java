@@ -6,6 +6,7 @@ import org.lwjgl.input.Keyboard;
 import features.corleone;
 import features.farming;
 import features.mining;
+import features.perspective;
 import features.soulwhip;
 import features.teleport;
 import gui.honestygui;
@@ -23,7 +24,7 @@ import utils.rotation;
 @Mod(modid = Main.MODID, version = Main.VERSION)
 public class Main {
 	public static final String MODID = "Honesty";
-	public static final String VERSION = "1.01";
+	public static final String VERSION = "1.19";
 
 	// EVENTS: MinecraftForge.EVENT_BUS.register(new Chat());
 	// COMMANDS: ClientCommandHandler.instance.registerCommand(new SECommand());
@@ -36,10 +37,11 @@ public class Main {
 		MinecraftForge.EVENT_BUS.register(new farming());
 		MinecraftForge.EVENT_BUS.register(new rotation());
 		MinecraftForge.EVENT_BUS.register(new mining());
+		MinecraftForge.EVENT_BUS.register(new perspective());
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
-	public static final KeyBinding SWAP_KEY = new KeyBinding("GUI", Keyboard.KEY_L, Main.MODID);
+	public static final KeyBinding SWAP_KEY = new KeyBinding("GUI", Keyboard.KEY_J, Main.MODID);
 	static {
 		ClientRegistry.registerKeyBinding(SWAP_KEY);
 	}
