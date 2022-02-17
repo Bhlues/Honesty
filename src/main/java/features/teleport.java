@@ -8,12 +8,13 @@ import java.util.Random;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class teleport {
 	ArrayList<String> ItemList = new ArrayList<>(Arrays.asList("Stonk", "Daedalus", "Metal"));
-	ArrayList<String> TeleportList = new ArrayList<>(Arrays.asList("Void", "Hyperion", "Scylla", "Valk", "Astrea"));
+	ArrayList<String> TeleportList = new ArrayList<>(Arrays.asList("Void", "Hyperion", "Scylla", "Valk", "Astrea", "Aspect of the End"));
 	ArrayList<String> RodList = new ArrayList<>(Arrays.asList("Rod"));
 	ArrayList<String> ForagingList = new ArrayList<>(Arrays.asList("Treecapitator", "Jungle"));
 	ArrayList<String> Soulwhip = new ArrayList<>(Arrays.asList("Soul"));
@@ -22,6 +23,9 @@ public class teleport {
 	public static boolean active = false;
 	public static boolean active2 = false;
 	public static boolean active3 = false;
+	public boolean guiOpened = false;
+	
+	public long time = 0;
 
 	public static void rightClick() {
 		try {
@@ -117,9 +121,18 @@ public class teleport {
 			}
 		}
 	}
+	
+	@SubscribeEvent
+	public void openGui (GuiOpenEvent event) {
+		guiOpened = event.gui != null;
+	}
+	
+	
 	@SubscribeEvent
 	public void SoulWhip(PlayerInteractEvent event) {
 		if (!active2) return;
+		if (System.currentTimeMillis() < time) return;
+		if (guiOpened) return;
 		if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR
 				|| event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
 			if (Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem() == null) return;
@@ -130,17 +143,18 @@ public class teleport {
 						if (Slot >= 0) {
 							event.setCanceled(true);
 							new Thread(() -> {
+								try {
 								int prevSlot = Minecraft.getMinecraft().thePlayer.inventory.currentItem;
 								Minecraft.getMinecraft().thePlayer.inventory.currentItem = Slot;
-								try {
+								time = System.currentTimeMillis() + new Random().nextInt(1000);
 									Thread.sleep(new Random().nextInt(75) + 50);
 									rightClick();
 									Thread.sleep(new Random().nextInt(75) + 50);
+									Minecraft.getMinecraft().thePlayer.inventory.currentItem = prevSlot;
 								} catch (InterruptedException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
-								Minecraft.getMinecraft().thePlayer.inventory.currentItem = prevSlot;
 							}).start();
 							return;
 						}

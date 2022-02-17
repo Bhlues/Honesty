@@ -95,15 +95,14 @@ public class otheritemsgui extends GuiScreen {
 		} else if (button == backPage) {
 			mc.displayGuiScreen(new otheritemsgui(page - 1));
 		} else if (button == Teleport) {
-			SoulWhip.displayString = "Enabled" + (teleport.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active;
-            Minecraft.getMinecraft().thePlayer.closeScreen();
+			teleport.active = !teleport.active;
+			Teleport.displayString = "Enabled" + (teleport.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active;
 		} else if (button == SoulWhip) {
 			teleport.active2 = !teleport.active2;
 			SoulWhip.displayString = "Enabled" + (teleport.active2 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active2;
-            Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == FishingRod) {
+			teleport.active3 = !teleport.active3;
 			FishingRod.displayString = "Enabled" + (teleport.active3 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active3;
-            Minecraft.getMinecraft().thePlayer.closeScreen();
 		}
     }
 }
