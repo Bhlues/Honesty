@@ -53,7 +53,7 @@ public class otheritemsgui extends GuiScreen {
 
 		Teleport = new GuiButton(0, 0, 0, "Teleport: " + (teleport.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active);
 		SoulWhip = new GuiButton(0, 0, 0, "Soulwhip: " + (teleport.active2 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active2);
-		FishingRod = new GuiButton(0, 0, 0, "FishingRod: " + (teleport.active3 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active3);
+		FishingRod = new GuiButton(0, 0, 0, "Fishing Rod: " + (teleport.active3 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active3);
 
 		allButtons.add(SoulWhip);
 		allButtons.add(Teleport);
@@ -96,13 +96,13 @@ public class otheritemsgui extends GuiScreen {
 			mc.displayGuiScreen(new otheritemsgui(page - 1));
 		} else if (button == Teleport) {
 			teleport.active = !teleport.active;
-			Teleport.displayString = "Enabled" + (teleport.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active;
+			Teleport.displayString = "Teleport: " + (teleport.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active;
 		} else if (button == SoulWhip) {
 			teleport.active2 = !teleport.active2;
-			SoulWhip.displayString = "Enabled" + (teleport.active2 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active2;
+			SoulWhip.displayString = "SoulWhip: " + (teleport.active2 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active2;
 		} else if (button == FishingRod) {
 			teleport.active3 = !teleport.active3;
-			FishingRod.displayString = "Enabled" + (teleport.active3 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active3;
+			FishingRod.displayString = "Fishing Rod: " + (teleport.active3 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + teleport.active3;
 		}
     }
 }

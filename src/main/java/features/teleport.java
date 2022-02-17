@@ -146,7 +146,7 @@ public class teleport {
 								try {
 								int prevSlot = Minecraft.getMinecraft().thePlayer.inventory.currentItem;
 								Minecraft.getMinecraft().thePlayer.inventory.currentItem = Slot;
-								time = System.currentTimeMillis() + new Random().nextInt(1000);
+								time = System.currentTimeMillis() + new Random().nextInt(375) + 125;
 									Thread.sleep(new Random().nextInt(75) + 50);
 									rightClick();
 									Thread.sleep(new Random().nextInt(75) + 50);
