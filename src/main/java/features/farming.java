@@ -52,7 +52,7 @@ public class farming {
 	KeyBinding right = Minecraft.getMinecraft().gameSettings.keyBindRight;
 	KeyBinding jump = Minecraft.getMinecraft().gameSettings.keyBindJump;
 
-	private static final KeyBinding SWAP_KEY = new KeyBinding("Turn off all farming macro's", Keyboard.KEY_PERIOD,
+	private static final KeyBinding SWAP_KEY = new KeyBinding("Turn off all macro's", Keyboard.KEY_PERIOD,
 			Main.MODID);
 	static {
 		ClientRegistry.registerKeyBinding(SWAP_KEY);

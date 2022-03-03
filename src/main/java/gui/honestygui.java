@@ -6,6 +6,7 @@ import java.util.List;
 import features.corleone;
 import features.perspective;
 import features.soulwhip;
+import featuers.foraging;
 import gui.opengui.farminggui;
 import gui.opengui.otheritemsgui;
 import net.minecraft.client.Minecraft;
@@ -29,9 +30,11 @@ public class honestygui extends GuiScreen {
 	// toggles
 	private GuiButton corleoneafk;
 	private GuiButton farmingbutton;
+	private GuiButton isforaging;
 	private GuiButton soulwhipSS;
 	private GuiButton itemswithother;
 	private GuiButton perspectivef5;
+
 
 	public honestygui(int page) {
 		this.page = page;
@@ -55,6 +58,7 @@ public class honestygui extends GuiScreen {
 		nextPage = new GuiButton(0, width / 2 + 20, (int) (height * 0.8), 80, 20, "Next >");
 
 		farmingbutton = new GuiButton(0, 0, 0, "Farming Menu");
+		isforaging = new GuiButton(0, 0, 0, "Island Foraging");
 		corleoneafk = new GuiButton(0, 0, 0, "Corleone AFK: " + (corleone.afk ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
 				+ corleone.afk);
 		soulwhipSS = new GuiButton(0, 0, 0, "Soulwhip Swordswap: "
@@ -64,10 +68,12 @@ public class honestygui extends GuiScreen {
 				+ (perspective.togglef5 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + perspective.togglef5);
 
 		allButtons.add(farmingbutton);
+		
 		allButtons.add(corleoneafk);
 		allButtons.add(soulwhipSS);
 		allButtons.add(itemswithother);
 		allButtons.add(perspectivef5);
+		
 
 		reInit();
 	}
@@ -117,9 +123,10 @@ public class honestygui extends GuiScreen {
 			Minecraft.getMinecraft().displayGuiScreen(new otheritemsgui(1));
 		} else if (button == farmingbutton) {
 			Minecraft.getMinecraft().displayGuiScreen(new farminggui(1));
-		} else if (button == perspectivef5) {
-			perspective.togglef5 = !perspective.togglef5;
-			perspectivef5.displayString = "Remove Second Person: " + (perspective.togglef5 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
+					Minecraft.getMinecraft().thePlayer.closeScreen();
+		} else if (button == isforaging) {
+			features.foraging.IslandForaging = !features.foraging.IslandForaging;
+			perspectivef5.displayString = "Island Foraging: " + (perspective.togglef5 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
 					+ perspective.togglef5;
 					Minecraft.getMinecraft().thePlayer.closeScreen();
 		}

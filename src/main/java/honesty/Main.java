@@ -5,6 +5,7 @@ import org.lwjgl.input.Keyboard;
 
 import features.corleone;
 import features.farming;
+import features.foraging;
 import features.mining;
 import features.perspective;
 import features.soulwhip;
@@ -40,6 +41,7 @@ public class Main {
 		MinecraftForge.EVENT_BUS.register(new rotation());
 		MinecraftForge.EVENT_BUS.register(new mining());
 		MinecraftForge.EVENT_BUS.register(new perspective());
+		MinecraftForge.EVENT_BUS.register(new foraging());
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
