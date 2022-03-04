@@ -1,12 +1,9 @@
 package features;
 
 import java.util.Random;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.lang.reflect.Method;
 
 import org.lwjgl.input.Keyboard;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import honesty.Main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
@@ -14,14 +11,15 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import utils.location;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class foraging {
-    public static boolean IslandForaging;
+    public static boolean IslandForaging = false;
+    public static boolean foragingcheck = false;
     private boolean direction = false;
 
     public static int tick = 20;
@@ -77,97 +75,167 @@ public class foraging {
         ClientRegistry.registerKeyBinding(SWAP_KEY);
     }
 
-    public void placing() {
-        int plant = findItemInHotbar("sapling");
-        if (plant == -1) {
-            Minecraft.getMinecraft().thePlayer.addChatMessage(
-                    new ChatComponentText(EnumChatFormatting.RED + "No sapplings in hotbar"));
+    @SubscribeEvent
+    public void onTick(TickEvent.ClientTickEvent e) {
+        if (e.phase != TickEvent.Phase.START || !foragingcheck)
             return;
+        tick++;
+        if (tick > 20)
+            tick = 1;
+        if (tick == 18) {
+            if (IslandForaging) {
+                placing();
+                foragingcheck = false;
+            }
         }
-        if (plant != -1) {
-            if (location.onIsland) {
-                new Thread(() -> {
-                    try {
-                        Minecraft.getMinecraft().thePlayer.inventory.currentItem = plant;
-                        KeyDown(place);
-                        Thread.sleep(new Random().nextInt(150) + 100);
-                        walking();
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
-                }).start();
+        if (tick == 19) {
+            foragingcheck = false;
+        }
+    }
+
+    public void placing() {
+        if (IslandForaging) {
+            int plant = findItemInHotbar("sapling");
+            if (plant == -1) {
+                Minecraft.getMinecraft().thePlayer.addChatMessage(
+                        new ChatComponentText(EnumChatFormatting.RED + "No sapplings in hotbar"));
+                return;
+            }
+            if (plant != -1) {
+                if (location.onIsland) {
+                    new Thread(() -> {
+                        try {
+                            Minecraft.getMinecraft().thePlayer.inventory.currentItem = plant;
+                            KeyDown(place);
+                            Thread.sleep(new Random().nextInt(50) + 100);
+                            walking();
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+                }
             }
         }
     }
 
     public void walking() {
-        if (location.onIsland) {
-            if (direction) {
-                new Thread(() -> {
-                    try {
-                        Thread.sleep(new Random().nextInt(50) + 50);
-                        KeyUp(place);
-                        growing();
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
-                }).start();
-            }
+        if (IslandForaging) {
+            if (location.onIsland) {
+                if (direction) {
+                    new Thread(() -> {
+                        try {
+                            KeyDown(right);
+                            Thread.sleep(new Random().nextInt(100) + 50);
+                            KeyUp(place);
+                            KeyUp(right);
+                            growing();
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+                }
 
-            else if (!direction) {
-                new Thread(() -> {
-                    try {
-                        Thread.sleep(new Random().nextInt(50) + 50);
-                        KeyUp(place);
-                        growing();
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
-                }).start();
+                else if (!direction) {
+                    new Thread(() -> {
+                        try {
+                            KeyDown(left);
+                            Thread.sleep(new Random().nextInt(100) + 50);
+                            KeyUp(place);
+                            KeyUp(left);
+                            growing();
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+                }
             }
         }
     }
 
     public void growing() {
-        int meal = findItemInHotbar("Bone");
-        if (meal == -1) {
-            Minecraft.getMinecraft().thePlayer.addChatMessage(
-                    new ChatComponentText(EnumChatFormatting.RED + "No Bonemeal in hotbar"));
-        }
-        if (meal != -1) {
-            if (location.onIsland) {
-                new Thread(() -> {
-                    try {
-                        Thread.sleep(new Random().nextInt(25) + 25);
-                        Minecraft.getMinecraft().thePlayer.inventory.currentItem = meal;
-                        rightClick();
-                        Thread.sleep(new Random().nextInt(25) + 10);
-                        swapping();
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
-                }).start();
+        if (IslandForaging) {
+            int meal = findItemInHotbar("Bone");
+            if (meal == -1) {
+                Minecraft.getMinecraft().thePlayer.addChatMessage(
+                        new ChatComponentText(EnumChatFormatting.RED + "No Bonemeal in hotbar"));
+            }
+            if (meal != -1) {
+                if (location.onIsland) {
+                    new Thread(() -> {
+                        try {
+                            Thread.sleep(new Random().nextInt(25) + 25);
+                            Minecraft.getMinecraft().thePlayer.inventory.currentItem = meal;
+                            rightClick();
+                            Thread.sleep(new Random().nextInt(25) + 10);
+                            swapping();
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+                }
             }
         }
     }
 
     public void swapping() {
-        int rod = findItemInHotbar("rod");
-       if (rod == -1) {
-
-        return;
-       }
-       if (rod != -1) {
-        if (location.onIsland) {
-
+        if (IslandForaging) {
+            int rod = findItemInHotbar("Rod");
+            if (rod == -1) {
+                Minecraft.getMinecraft().thePlayer.addChatMessage(
+                        new ChatComponentText(EnumChatFormatting.RED + "No fishing rod in hotbar"));
+                return;
+            }
+            if (rod != -1) {
+                if (location.onIsland) {
+                    new Thread(() -> {
+                        try {
+                            Thread.sleep(new Random().nextInt(50) + 50);
+                            Minecraft.getMinecraft().thePlayer.inventory.currentItem = rod;
+                            Thread.sleep(new Random().nextInt(75) + 100);
+                            rightClick();
+                            Thread.sleep(new Random().nextInt(75) + 50);
+                            breaking();
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+                }
+            }
         }
-       }
     }
 
     public void breaking() {
-        if (location.onIsland) {
-
+        if (IslandForaging) {
+            int tools = findItemInHotbar("Treecapitator");
+            if (tools == -1) {
+                Minecraft.getMinecraft().thePlayer.addChatMessage(
+                        new ChatComponentText(EnumChatFormatting.RED + "No Treecap in hotbar"));
+                return;
+            }
+            if (tools != -1) {
+                if (location.onIsland) {
+                    new Thread(() -> {
+                        try {
+                            Thread.sleep(new Random().nextInt(25) + 50);
+                            Minecraft.getMinecraft().thePlayer.inventory.currentItem = tools;
+                            Thread.sleep(new Random().nextInt(75) + 50);
+                            KeyDown(attack);
+                            Thread.sleep(new Random().nextInt(100) + 75);
+                            KeyUp(attack);
+                            placing();
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                    }).start();
+                }
+            }
         }
+    }
+
+    public void onWorldChange(WorldEvent.Unload e) {
+        Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(
+                EnumChatFormatting.AQUA + "Foraging stopped:" + EnumChatFormatting.DARK_RED + "Due to server close"));
+        IslandForaging = false;
     }
 
 }
