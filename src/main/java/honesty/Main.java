@@ -45,14 +45,14 @@ public class Main {
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
-	public static final KeyBinding SWAP_KEY = new KeyBinding("GUI", Keyboard.KEY_J, Main.MODID);
+	public static final KeyBinding Gui = new KeyBinding("GUI", Keyboard.KEY_J, Main.MODID);
 	static {
-		ClientRegistry.registerKeyBinding(SWAP_KEY);
+		ClientRegistry.registerKeyBinding(Gui);
 	}
 
 	@SubscribeEvent
 	public void onKeyEvent(KeyInputEvent e) {
-		if (SWAP_KEY.isPressed()) {
+		if (Gui.isPressed()) {
 			Minecraft.getMinecraft().displayGuiScreen(new honestygui(1));
 		}
 	}

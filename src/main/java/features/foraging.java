@@ -15,6 +15,7 @@ import utils.location;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class foraging {
@@ -69,11 +70,25 @@ public class foraging {
             KeyBinding.setKeyBindState(key.getKeyCode(), false);
     }
 
-    private static final KeyBinding SWAP_KEY = new KeyBinding("Turn off all macro's", Keyboard.KEY_PERIOD,
+    private static final KeyBinding SWAP_KEY = new KeyBinding("Turn off foraging macro", Keyboard.KEY_PERIOD,
             Main.MODID);
     static {
         ClientRegistry.registerKeyBinding(SWAP_KEY);
     }
+    
+    @SubscribeEvent
+	public void onKeyEvent(KeyInputEvent e) {
+		if (SWAP_KEY.isPressed()) {
+			IslandForaging = false;
+			KeyUp(attack);
+			KeyUp(place);
+			KeyUp(forward);
+			KeyUp(left);
+			KeyUp(right);
+			Minecraft.getMinecraft().thePlayer
+					.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Turned off all foraging macro"));
+		}
+	}
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent e) {
