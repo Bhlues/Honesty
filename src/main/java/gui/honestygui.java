@@ -58,16 +58,14 @@ public class honestygui extends GuiScreen {
 		nextPage = new GuiButton(0, width / 2 + 20, (int) (height * 0.8), 80, 20, "Next >");
 
 		farmingbutton = new GuiButton(0, 0, 0, "Farming Menu");
-		isforaging = new GuiButton(0, 0, 0, "Island Foraging" + (foraging.IslandForaging ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + foraging.IslandForaging);
-		corleoneafk = new GuiButton(0, 0, 0, "Corleone AFK: " + (corleone.afk ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
-				+ corleone.afk);
-				foraging.foragingcheck = true;
+		isforaging = new GuiButton(0, 0, 0, "Island Foraging" + statusText(foraging.IslandForaging));
+		corleoneafk = new GuiButton(0, 0, 0, "Corleone AFK" + statusText(corleone.afk));
+		// ITS HERE
 				Minecraft.getMinecraft().thePlayer.closeScreen();
-		soulwhipSS = new GuiButton(0, 0, 0, "Soulwhip Swordswap: "
-				+ (soulwhip.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + soulwhip.active);
+		// UP THERE BIG BRAIN MAIN
+		soulwhipSS = new GuiButton(0, 0, 0, "Soulwhip Swordswap" + statusText(soulwhip.active));
 		itemswithother = new GuiButton(0, 0, 0, "Items with other items");
-		perspectivef5 = new GuiButton(0, 0, 0, "Remove Second Person: "
-				+ (perspective.togglef5 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + perspective.togglef5);
+		perspectivef5 = new GuiButton(0, 0, 0, "Remove Second Person" + statusText(perspective.togglef5));
 
 		allButtons.add(farmingbutton);
 		allButtons.add(isforaging);
@@ -78,6 +76,10 @@ public class honestygui extends GuiScreen {
 		
 
 		reInit();
+	}
+	
+	private String statusText(boolean feature) {
+		return ": " + (feature ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + (feature ? "On" : "Off");
 	}
 
 	public void reInit() {
