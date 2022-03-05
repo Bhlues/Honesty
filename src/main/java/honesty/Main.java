@@ -45,7 +45,7 @@ public class Main {
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
-	public static final KeyBinding Gui = new KeyBinding("GUI", Keyboard.KEY_J, Main.MODID);
+	public static final KeyBinding Gui = new KeyBinding("GUI", Keyboard.KEY_J, MODID);
 	static {
 		ClientRegistry.registerKeyBinding(Gui);
 	}
@@ -53,7 +53,10 @@ public class Main {
 	@SubscribeEvent
 	public void onKeyEvent(KeyInputEvent e) {
 		if (Gui.isPressed()) {
-			Minecraft.getMinecraft().displayGuiScreen(new honestygui(1));
+			Minecraft mc = Minecraft.getMinecraft();
+			if (mc.currentScreen != null)
+				return;
+			mc.displayGuiScreen(new honestygui(1));
 		}
 	}
 }
