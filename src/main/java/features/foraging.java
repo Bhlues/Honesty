@@ -37,7 +37,7 @@ public class foraging {
         for (int i = 0; i < 9; i++) {
             ItemStack curStack = inv.getStackInSlot(i);
             if (curStack != null) {
-                if (curStack.getDisplayName().contains(name)) {
+                if (curStack.getDisplayName().toLowerCase().contains(name.toLowerCase())) {
                     return i;
                 }
             }
