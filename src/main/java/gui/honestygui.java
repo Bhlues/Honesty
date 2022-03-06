@@ -9,6 +9,7 @@ import features.soulwhip;
 import features.foraging;
 import gui.opengui.farminggui;
 import gui.opengui.otheritemsgui;
+import gui.opengui.soulwhipitems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -34,6 +35,7 @@ public class honestygui extends GuiScreen {
 	private GuiButton soulwhipSS;
 	private GuiButton itemswithother;
 	private GuiButton perspectivef5;
+	private GuiButton SoulWhipSwap;
 
 
 	public honestygui(int page) {
@@ -59,6 +61,7 @@ public class honestygui extends GuiScreen {
 
 		farmingbutton = new GuiButton(0, 0, 0, "Farming Menu");
 		isforaging = new GuiButton(0, 0, 0, "Island Foraging" + statusText(foraging.IslandForaging));
+		SoulWhipSwap = new GuiButton(0, 0, 0, "Soul Whip With Other Items Menu");
 		corleoneafk = new GuiButton(0, 0, 0, "Corleone AFK" + statusText(corleone.afk));
 		// ITS HERE
 				// Minecraft.getMinecraft().thePlayer.closeScreen(); I DON'T WANT TO TALK ABOUT IT
@@ -69,6 +72,7 @@ public class honestygui extends GuiScreen {
 
 		allButtons.add(farmingbutton);
 		allButtons.add(isforaging);
+		allButtons.add(SoulWhipSwap);
 		allButtons.add(corleoneafk);
 		allButtons.add(soulwhipSS);
 		allButtons.add(itemswithother);
@@ -134,6 +138,8 @@ public class honestygui extends GuiScreen {
 					+ foraging.IslandForaging;
 					Minecraft.getMinecraft().thePlayer.closeScreen();
 			foraging.foragingcheck = true;
+		} else if (button == SoulWhipSwap) {
+			Minecraft.getMinecraft().displayGuiScreen(new soulwhipitems(1));
 		}
 	}
 }

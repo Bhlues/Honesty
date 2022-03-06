@@ -155,7 +155,7 @@ public class foraging {
                     new Thread(() -> {
                         try {
                             KeyDown(right);
-                            Thread.sleep(new Random().nextInt(900) + 450);
+                            Thread.sleep(new Random().nextInt(950) + 75);
                             KeyUp(place);
                             KeyUp(right);
                             growing();
@@ -169,7 +169,7 @@ public class foraging {
                     new Thread(() -> {
                         try {
                             KeyDown(left);
-                            Thread.sleep(new Random().nextInt(900) + 150);
+                            Thread.sleep(new Random().nextInt(950) + 75);
                             KeyUp(place);
                             KeyUp(left);
                             growing();

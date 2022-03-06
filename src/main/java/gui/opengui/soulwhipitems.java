@@ -3,7 +3,7 @@ package gui.opengui;
 import java.util.ArrayList;
 import java.util.List;
 
-import features.itemswithotheritems;
+import features.soulwhipwithanything;
 import gui.honestygui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -51,9 +51,9 @@ public class soulwhipitems extends GuiScreen {
 		backPage = new GuiButton(0, width / 2 - 100, (int) (height * 0.8), 80, 20, "< Back");
 		nextPage = new GuiButton(0, width / 2 + 20, (int) (height * 0.8), 80, 20, "Next >");
 
-		DW = new GuiButton(0, 0, 0, "Teleport: " + (itemswithotheritems.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + itemswithotheritems.active);
-		HDmgW = new GuiButton(0, 0, 0, "Soulwhip: " + (itemswithotheritems.active2 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + itemswithotheritems.active2);
-		SW = new GuiButton(0, 0, 0, "Fishing Rod: " + (itemswithotheritems.active3 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + itemswithotheritems.active3);
+		DW = new GuiButton(0, 0, 0, "Dungeon Weapons: " + (soulwhipwithanything.DW ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + soulwhipwithanything.DW);
+		HDmgW = new GuiButton(0, 0, 0, "High Damage Weapons: " + (soulwhipwithanything.HDmgW ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + soulwhipwithanything.HDmgW);
+		SW = new GuiButton(0, 0, 0, "Slayer Weapons: " + (soulwhipwithanything.SW ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + soulwhipwithanything.SW);
 
 		allButtons.add(DW);
 		allButtons.add(HDmgW);
@@ -94,15 +94,15 @@ public class soulwhipitems extends GuiScreen {
 			mc.displayGuiScreen(new soulwhipitems(page + 1));
 		} else if (button == backPage) {
 			mc.displayGuiScreen(new soulwhipitems(page - 1));
-		} else if (button == Teleport) {
-			itemswithotheritems.active = !itemswithotheritems.active;
-			Teleport.displayString = "Teleport: " + (itemswithotheritems.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + itemswithotheritems.active;
-		} else if (button == SoulWhip) {
-			itemswithotheritems.active2 = !itemswithotheritems.active2;
-			SoulWhip.displayString = "SoulWhip: " + (itemswithotheritems.active2 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + itemswithotheritems.active2;
-		} else if (button == FishingRod) {
-			itemswithotheritems.active3 = !itemswithotheritems.active3;
-			FishingRod.displayString = "Fishing Rod: " + (itemswithotheritems.active3 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + itemswithotheritems.active3;
+		} else if (button == DW) {
+			soulwhipwithanything.DW = !soulwhipwithanything.DW;
+			DW.displayString = "Dungeon Weapons: " + (soulwhipwithanything.DW ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + soulwhipwithanything.DW;
+		} else if (button == HDmgW) {
+			soulwhipwithanything.HDmgW = !soulwhipwithanything.HDmgW;
+			HDmgW.displayString = "High Damage Weapons: " + (soulwhipwithanything.HDmgW ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + soulwhipwithanything.HDmgW;
+		} else if (button == SW) {
+			soulwhipwithanything.SW = !soulwhipwithanything.SW;
+			SW.displayString = "Slayer Weapons: " + (soulwhipwithanything.SW ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + soulwhipwithanything.SW;
 		}
     }
 }
