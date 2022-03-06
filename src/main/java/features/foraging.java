@@ -59,6 +59,21 @@ public class foraging {
             e.printStackTrace();
         }
     }
+    
+    public static void click() {
+        try {
+            Method clickMouse;
+            try {
+                clickMouse = Minecraft.class.getDeclaredMethod("func_147116_af");
+            } catch (NoSuchMethodException e) {
+                clickMouse = Minecraft.class.getDeclaredMethod("clickMouse");
+            }
+            clickMouse.setAccessible(true);
+            clickMouse.invoke(Minecraft.getMinecraft());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private static void KeyDown(KeyBinding key) {
         if (!key.isKeyDown())
@@ -110,7 +125,7 @@ public class foraging {
 
     public void placing() {
         if (IslandForaging) {
-            int plant = findItemInHotbar("sapling");
+            int plant = findItemInHotbar("Sapling");
             if (plant == -1) {
                 Minecraft.getMinecraft().thePlayer.addChatMessage(
                         new ChatComponentText(EnumChatFormatting.RED + "No sapplings in hotbar"));
@@ -122,7 +137,7 @@ public class foraging {
                         try {
                             Minecraft.getMinecraft().thePlayer.inventory.currentItem = plant;
                             KeyDown(place);
-                            Thread.sleep(new Random().nextInt(50) + 100);
+                            Thread.sleep(new Random().nextInt(400) + 150);
                             walking();
                         } catch (InterruptedException ex) {
                             ex.printStackTrace();
@@ -140,7 +155,7 @@ public class foraging {
                     new Thread(() -> {
                         try {
                             KeyDown(right);
-                            Thread.sleep(new Random().nextInt(100) + 50);
+                            Thread.sleep(new Random().nextInt(900) + 450);
                             KeyUp(place);
                             KeyUp(right);
                             growing();
@@ -154,7 +169,7 @@ public class foraging {
                     new Thread(() -> {
                         try {
                             KeyDown(left);
-                            Thread.sleep(new Random().nextInt(100) + 50);
+                            Thread.sleep(new Random().nextInt(900) + 150);
                             KeyUp(place);
                             KeyUp(left);
                             growing();
@@ -178,7 +193,7 @@ public class foraging {
                 if (location.onIsland) {
                     new Thread(() -> {
                         try {
-                            Thread.sleep(new Random().nextInt(25) + 25);
+                            Thread.sleep(new Random().nextInt(75) + 50);
                             Minecraft.getMinecraft().thePlayer.inventory.currentItem = meal;
                             rightClick();
                             Thread.sleep(new Random().nextInt(25) + 10);
@@ -234,10 +249,10 @@ public class foraging {
                             Thread.sleep(new Random().nextInt(25) + 50);
                             Minecraft.getMinecraft().thePlayer.inventory.currentItem = tools;
                             Thread.sleep(new Random().nextInt(75) + 50);
-                            KeyDown(attack);
-                            Thread.sleep(new Random().nextInt(100) + 75);
-                            KeyUp(attack);
+                            click();
+                            Thread.sleep(new Random().nextInt(1000) + 400);
                             placing();
+                            direction = !direction;
                         } catch (InterruptedException ex) {
                             ex.printStackTrace();
                         }

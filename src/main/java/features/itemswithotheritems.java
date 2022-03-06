@@ -12,7 +12,7 @@ import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class teleport {
+public class itemswithotheritems {
 	ArrayList<String> ItemList = new ArrayList<>(Arrays.asList("Stonk", "Daedalus", "Metal"));
 	ArrayList<String> TeleportList = new ArrayList<>(Arrays.asList("Void", "Hyperion", "Scylla", "Valk", "Astrea", "Aspect of the End"));
 	ArrayList<String> RodList = new ArrayList<>(Arrays.asList("Rod"));

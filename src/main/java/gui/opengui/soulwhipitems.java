@@ -11,7 +11,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.EnumChatFormatting;
 
-public class otheritemsgui extends GuiScreen {
+public class soulwhipitems extends GuiScreen {
 
     private int page;
     
@@ -24,13 +24,13 @@ public class otheritemsgui extends GuiScreen {
 	private GuiButton nextPage;
 
     //farming start
-    private GuiButton SoulWhip;
-    private GuiButton Teleport;
-    private GuiButton FishingRod;
+    private GuiButton DW;
+    private GuiButton HDmgW;
+    private GuiButton SW;
 
 
 
-    public otheritemsgui (int page) {
+    public soulwhipitems (int page) {
 		this.page = page;
 	}
 
@@ -51,13 +51,13 @@ public class otheritemsgui extends GuiScreen {
 		backPage = new GuiButton(0, width / 2 - 100, (int) (height * 0.8), 80, 20, "< Back");
 		nextPage = new GuiButton(0, width / 2 + 20, (int) (height * 0.8), 80, 20, "Next >");
 
-		Teleport = new GuiButton(0, 0, 0, "Teleport: " + (itemswithotheritems.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + itemswithotheritems.active);
-		SoulWhip = new GuiButton(0, 0, 0, "Soulwhip: " + (itemswithotheritems.active2 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + itemswithotheritems.active2);
-		FishingRod = new GuiButton(0, 0, 0, "Fishing Rod: " + (itemswithotheritems.active3 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + itemswithotheritems.active3);
+		DW = new GuiButton(0, 0, 0, "Teleport: " + (itemswithotheritems.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + itemswithotheritems.active);
+		HDmgW = new GuiButton(0, 0, 0, "Soulwhip: " + (itemswithotheritems.active2 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + itemswithotheritems.active2);
+		SW = new GuiButton(0, 0, 0, "Fishing Rod: " + (itemswithotheritems.active3 ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + itemswithotheritems.active3);
 
-		allButtons.add(SoulWhip);
-		allButtons.add(Teleport);
-		allButtons.add(FishingRod);
+		allButtons.add(DW);
+		allButtons.add(HDmgW);
+		allButtons.add(SW);
 
 
 		reInit();
@@ -91,9 +91,9 @@ public class otheritemsgui extends GuiScreen {
 		if (button == closeGui) {
 			Minecraft.getMinecraft().displayGuiScreen(new honestygui(1));
 		} else if (button == nextPage) {
-			mc.displayGuiScreen(new otheritemsgui(page + 1));
+			mc.displayGuiScreen(new soulwhipitems(page + 1));
 		} else if (button == backPage) {
-			mc.displayGuiScreen(new otheritemsgui(page - 1));
+			mc.displayGuiScreen(new soulwhipitems(page - 1));
 		} else if (button == Teleport) {
 			itemswithotheritems.active = !itemswithotheritems.active;
 			Teleport.displayString = "Teleport: " + (itemswithotheritems.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + itemswithotheritems.active;

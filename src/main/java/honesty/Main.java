@@ -9,7 +9,8 @@ import features.foraging;
 import features.mining;
 import features.perspective;
 import features.soulwhip;
-import features.teleport;
+import features.itemswithotheritems;
+import features.soulwhipwithanything;
 import gui.honestygui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
@@ -36,12 +37,13 @@ public class Main {
 	public void init(FMLInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(new corleone());
 		MinecraftForge.EVENT_BUS.register(new soulwhip());
-		MinecraftForge.EVENT_BUS.register(new teleport());
+		MinecraftForge.EVENT_BUS.register(new itemswithotheritems());
 		MinecraftForge.EVENT_BUS.register(new farming());
 		MinecraftForge.EVENT_BUS.register(new rotation());
 		MinecraftForge.EVENT_BUS.register(new mining());
 		MinecraftForge.EVENT_BUS.register(new perspective());
 		MinecraftForge.EVENT_BUS.register(new foraging());
+		MinecraftForge.EVENT_BUS.register(new soulwhipwithanything());
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 

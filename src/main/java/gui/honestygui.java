@@ -61,7 +61,7 @@ public class honestygui extends GuiScreen {
 		isforaging = new GuiButton(0, 0, 0, "Island Foraging" + statusText(foraging.IslandForaging));
 		corleoneafk = new GuiButton(0, 0, 0, "Corleone AFK" + statusText(corleone.afk));
 		// ITS HERE
-				Minecraft.getMinecraft().thePlayer.closeScreen();
+				// Minecraft.getMinecraft().thePlayer.closeScreen(); I DON'T WANT TO TALK ABOUT IT
 		// UP THERE BIG BRAIN MAIN
 		soulwhipSS = new GuiButton(0, 0, 0, "Soulwhip Swordswap" + statusText(soulwhip.active));
 		itemswithother = new GuiButton(0, 0, 0, "Items with other items");
