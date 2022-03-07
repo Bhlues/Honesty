@@ -21,6 +21,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class foraging {
     public static boolean IslandForaging = false;
     public static boolean foragingcheck = false;
+    public static boolean grow = false;
     private boolean direction = false;
 
     public static int tick = 20;
@@ -59,7 +60,7 @@ public class foraging {
             e.printStackTrace();
         }
     }
-    
+
     public static void click() {
         try {
             Method clickMouse;
@@ -90,20 +91,20 @@ public class foraging {
     static {
         ClientRegistry.registerKeyBinding(SWAP_KEY);
     }
-    
+
     @SubscribeEvent
-	public void onKeyEvent(KeyInputEvent e) {
-		if (SWAP_KEY.isPressed()) {
-			IslandForaging = false;
-			KeyUp(attack);
-			KeyUp(place);
-			KeyUp(forward);
-			KeyUp(left);
-			KeyUp(right);
-			Minecraft.getMinecraft().thePlayer
-					.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Turned off all foraging macro"));
-		}
-	}
+    public void onKeyEvent(KeyInputEvent e) {
+        if (SWAP_KEY.isPressed()) {
+            IslandForaging = false;
+            KeyUp(attack);
+            KeyUp(place);
+            KeyUp(forward);
+            KeyUp(left);
+            KeyUp(right);
+            Minecraft.getMinecraft().thePlayer
+                    .addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "Turned off all foraging macro"));
+        }
+    }
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent e) {
@@ -133,16 +134,34 @@ public class foraging {
             }
             if (plant != -1) {
                 if (location.onIsland) {
-                    new Thread(() -> {
-                        try {
-                            Minecraft.getMinecraft().thePlayer.inventory.currentItem = plant;
-                            KeyDown(place);
-                            Thread.sleep(new Random().nextInt(400) + 150);
-                            walking();
-                        } catch (InterruptedException ex) {
-                            ex.printStackTrace();
-                        }
-                    }).start();
+                    if (!grow) {
+                        new Thread(() -> {
+                            try {
+                                Minecraft.getMinecraft().thePlayer.inventory.currentItem = plant;
+                                Thread.sleep(new Random().nextInt(50) + 50);
+                                rightClick();
+                                Thread.sleep(new Random().nextInt(50) + 50);
+                                rightClick();
+                                walking();
+                            } catch (InterruptedException ex) {
+                                ex.printStackTrace();
+                            }
+                        }).start();
+                    } else if (grow) {
+                        new Thread(() -> {
+                            try {
+                                Minecraft.getMinecraft().thePlayer.inventory.currentItem = plant;
+                                Thread.sleep(new Random().nextInt(50) + 50);
+                                rightClick();
+                                Thread.sleep(new Random().nextInt(50) + 50);
+                                rightClick();
+                                grow = false;
+                                growing();
+                            } catch (InterruptedException ex) {
+                                ex.printStackTrace();
+                            }
+                        }).start();
+                    }
                 }
             }
         }
@@ -156,9 +175,9 @@ public class foraging {
                         try {
                             KeyDown(right);
                             Thread.sleep(new Random().nextInt(950) + 75);
-                            KeyUp(place);
                             KeyUp(right);
-                            growing();
+                            grow = true;
+                            placing();
                         } catch (InterruptedException ex) {
                             ex.printStackTrace();
                         }
@@ -170,9 +189,9 @@ public class foraging {
                         try {
                             KeyDown(left);
                             Thread.sleep(new Random().nextInt(950) + 75);
-                            KeyUp(place);
                             KeyUp(left);
-                            growing();
+                            grow = true;
+                            placing();
                         } catch (InterruptedException ex) {
                             ex.printStackTrace();
                         }

@@ -109,9 +109,7 @@ public class mining {
 
     }
 
-    public void powder() {
-
-    }
+   
 
     public void onWorldChange(WorldEvent.Unload e) {
         if (mithrilmining) {
