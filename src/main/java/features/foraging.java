@@ -19,7 +19,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-
 public class foraging {
     public static boolean IslandForaging = false;
     public static boolean foragingcheck = false;
@@ -79,9 +78,18 @@ public class foraging {
     }
 
     public void onChat(ClientChatReceivedEvent e) {
-//        if () {
-//
-//       }
+        String msg = e.message.getUnformattedText();
+        if (msg.contains("leond3")) {
+            return;
+        }
+        if (msg.contains("is visiting Your Island!")) {
+            IslandForaging = false;
+        }
+        if (msg.startsWith("Co-op")) {
+            if (msg.contains("go waste time and start foraging")) {
+                IslandForaging = true;
+            }
+        }
     }
 
     private static void KeyDown(KeyBinding key) {

@@ -1,5 +1,8 @@
 package features;
 
+import utils.player;
+import utils.render;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -18,10 +21,10 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class mining {
-    /* public static boolean pinglessMining;
+    public static boolean pinglessMining;
     private static BlockPos block = null;
     private static final ArrayList<BlockPos> broken = new ArrayList<>();
-    private final KeyBinding lc = Main.mc.gameSettings.keyBindAttack;
+    private final KeyBinding lc = Minecraft.getMinecraft().gameSettings.keyBindAttack;
     private static int ticks = 0;
     private int pinglessSpeed = 20;
 
@@ -37,7 +40,7 @@ public class mining {
         }
         if (lc != null && lc.isKeyDown()) {
             if (block != null) {
-                MovingObjectPosition movingObjectPosition = Main.mc.objectMouseOver;
+                MovingObjectPosition movingObjectPosition = Minecraft.getMinecraft().objectMouseOver;
                 if (movingObjectPosition != null
                         && movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
                     Block b = Minecraft.getMinecraft().getBlockState(movingObjectPosition.getBlockPos()).getBlock();
@@ -48,9 +51,9 @@ public class mining {
                             b == Blocks.nether_wart || b == Blocks.reeds || b == Blocks.potatoes
                             || b == Blocks.carrots) {
                         broken.add(block);
-                        Main.mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
+                        Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
                                 C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, block, EnumFacing.DOWN));
-                        PlayerUtils.swingItem();
+                        player.swingItem();
                     }
                 }
             }
@@ -71,7 +74,7 @@ public class mining {
         }
         if (lc != null && lc.isKeyDown()) {
             if (block != null) {
-                MovingObjectPosition movingObjectPosition = Main.mc.objectMouseOver;
+                MovingObjectPosition movingObjectPosition = Minecraft.getMinecraft().objectMouseOver;
                 if (movingObjectPosition != null
                         && movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
                     Block b = Minecraft.getMinecraft().getBlockState(movingObjectPosition.getBlockPos()).getBlock();
@@ -82,7 +85,7 @@ public class mining {
                         broken.add(block);
                         Minecraft.getMinecraft().thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(
                                 C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, block, EnumFacing.DOWN));
-                        PlayerUtils.swingItem();
+                        player.swingItem();
                     }
                 }
             }
@@ -98,14 +101,14 @@ public class mining {
         }
         block = closestBlock(event);
         if (block != null) {
-            RenderUtils.drawBlockBox(block, new Color(255, 0, 0), Main.configFile.lineWidth, event.partialTicks);
+            render.drawBlockBox(block, new Color(255, 0, 0), Main.configFile.lineWidth, event.partialTicks);
         }
     }
 
     private BlockPos closestBlock(RenderWorldLastEvent event) {
         int r = 5;
         BlockPos playerPos = Minecraft.getMinecraft().getPosition().add(0, 1, 0);
-        Vec3 playerVec = Main.mc.thePlayer.getPositionVector();
+        Vec3 playerVec = Minecraft.getMinecraft().thePlayer.getPositionVector();
         Vec3i vec3i = new Vec3i(r, r, r);
         ArrayList<Vec3> blocks = new ArrayList<>();
         for (BlockPos blockPos : BlockPos.getAllInBox(playerPos.add(vec3i), playerPos.subtract(vec3i))) {
@@ -134,7 +137,8 @@ public class mining {
         AxisAlignedBB aabb = AxisAlignedBB.fromBounds(blockPos.getX(), blockPos.getY(), blockPos.getZ(),
                 blockPos.getX() + 1, blockPos.getY() + 1, blockPos.getZ() + 1);
         Vec3 position = new Vec3(Minecraft.getMinecraft().thePlayer.posX,
-                (Minecraft.getMinecraft().thePlayer.posY + Main.mc.thePlayer.getEyeHeight()), Main.mc.thePlayer.posZ);
+                (Minecraft.getMinecraft().thePlayer.posY + Minecraft.getMinecraft().thePlayer.getEyeHeight()),
+                Minecraft.getMinecraft().thePlayer.posZ);
         Vec3 look = Minecraft.getMinecraft().thePlayer.getLook(event.partialTicks);
         look = scaleVec(look, 0.2F);
         for (int i = 0; i < 40; i++) {
@@ -151,6 +155,5 @@ public class mining {
     private static Vec3 scaleVec(Vec3 vec, float f) {
         return new Vec3(vec.xCoord * (double) f, vec.yCoord * (double) f, vec.zCoord * (double) f);
     }
-    */
+
 }
- 
