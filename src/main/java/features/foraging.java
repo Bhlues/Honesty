@@ -80,6 +80,7 @@ public class foraging {
         }
     }
 
+    @SubscribeEvent
     public void onChat(ClientChatReceivedEvent e) {
     	String msg = StringUtils.stripControlCodes(e.message.getUnformattedText()).toLowerCase();
         if (msg.contains("leond3")) {
@@ -87,7 +88,7 @@ public class foraging {
         }
         if (msg.contains(":")) return;
         if (msg.endsWith(" is visiting your island!")) IslandForaging = false;
-        if (msg.startsWith("Co-op")) {
+        if (msg.startsWith("co-op")) {
             if (msg.contains("go waste time and start foraging")) {
                 if (StartAgain) {
                     IslandForaging = true;
