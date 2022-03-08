@@ -23,6 +23,7 @@ public class foraging {
     public static boolean IslandForaging = false;
     public static boolean foragingcheck = false;
     public static boolean grow = false;
+    public static boolean StartAgain = false;
     private boolean direction = false;
 
     public static int tick = 20;
@@ -87,7 +88,9 @@ public class foraging {
         }
         if (msg.startsWith("Co-op")) {
             if (msg.contains("go waste time and start foraging")) {
-                IslandForaging = true;
+                if (StartAgain) {
+                    IslandForaging = true;
+                }
             }
         }
     }

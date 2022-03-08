@@ -5,7 +5,7 @@ import java.util.List;
 
 import features.corleone;
 import features.perspective;
-import features.soulwhip;
+//import features.soulwhip;
 import features.foraging;
 import gui.opengui.farminggui;
 import gui.opengui.otheritemsgui;
@@ -133,6 +133,7 @@ public class honestygui extends GuiScreen {
 					Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == isforaging) {
 			foraging.IslandForaging = !foraging.IslandForaging;
+			foraging.StartAgain = !foraging.StartAgain;
 			isforaging.displayString = "Island Foraging: " + (foraging.IslandForaging ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
 					+ foraging.IslandForaging;
 					Minecraft.getMinecraft().thePlayer.closeScreen();
