@@ -32,7 +32,7 @@ public class honestygui extends GuiScreen {
 	private GuiButton corleoneafk;
 	private GuiButton farmingbutton;
 	private GuiButton isforaging;
-	private GuiButton soulwhipSS;
+	//private GuiButton soulwhipSS;
 	private GuiButton itemswithother;
 	private GuiButton perspectivef5;
 	private GuiButton SoulWhipSwap;
@@ -62,22 +62,21 @@ public class honestygui extends GuiScreen {
 		farmingbutton = new GuiButton(0, 0, 0, "Farming Menu");
 		isforaging = new GuiButton(0, 0, 0, "Island Foraging" + statusText(foraging.IslandForaging));
 		SoulWhipSwap = new GuiButton(0, 0, 0, "Soul Whip With Other Items Menu");
-		corleoneafk = new GuiButton(0, 0, 0, "Corleone AFK" + statusText(corleone.afk));
+		itemswithother = new GuiButton(0, 0, 0, "Items with other items");
 		// ITS HERE
 				// Minecraft.getMinecraft().thePlayer.closeScreen(); I DON'T WANT TO TALK ABOUT IT
 		// UP THERE BIG BRAIN MAIN
-		soulwhipSS = new GuiButton(0, 0, 0, "Soulwhip Swordswap" + statusText(soulwhip.active));
-		itemswithother = new GuiButton(0, 0, 0, "Items with other items");
+		//soulwhipSS = new GuiButton(0, 0, 0, "Soulwhip Swordswap" + statusText(soulwhip.active));
 		perspectivef5 = new GuiButton(0, 0, 0, "Remove Second Person" + statusText(perspective.togglef5));
+		corleoneafk = new GuiButton(0, 0, 0, "Corleone AFK" + statusText(corleone.afk));
 
 		allButtons.add(farmingbutton);
 		allButtons.add(isforaging);
 		allButtons.add(SoulWhipSwap);
-		allButtons.add(corleoneafk);
-		allButtons.add(soulwhipSS);
+		//allButtons.add(soulwhipSS);
 		allButtons.add(itemswithother);
 		allButtons.add(perspectivef5);
-		
+		allButtons.add(corleoneafk);
 
 		reInit();
 	}
@@ -122,11 +121,11 @@ public class honestygui extends GuiScreen {
 			corleoneafk.displayString = "Corleone AFK: " + (corleone.afk ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
 					+ corleone.afk;
 					Minecraft.getMinecraft().thePlayer.closeScreen();
-		} else if (button == soulwhipSS) {
-			soulwhip.active = !soulwhip.active;
-			soulwhipSS.displayString = "Soulwhip Swordswap: "
-					+ (soulwhip.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + soulwhip.active;
-					Minecraft.getMinecraft().thePlayer.closeScreen();
+		//} else if (button == soulwhipSS) {
+		//	soulwhip.active = !soulwhip.active;
+		//.displayString = "Soulwhip Swordswap: "
+		//			+ (soulwhip.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + soulwhip.active;
+		//			Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == itemswithother) {
 			Minecraft.getMinecraft().displayGuiScreen(new otheritemsgui(1));
 		} else if (button == farmingbutton) {

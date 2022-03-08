@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class mining {
-    public static boolean pinglessMining;
+    /* public static boolean pinglessMining;
     private static BlockPos block = null;
     private static final ArrayList<BlockPos> broken = new ArrayList<>();
     private final KeyBinding lc = Main.mc.gameSettings.keyBindAttack;
@@ -151,4 +151,6 @@ public class mining {
     private static Vec3 scaleVec(Vec3 vec, float f) {
         return new Vec3(vec.xCoord * (double) f, vec.yCoord * (double) f, vec.zCoord * (double) f);
     }
+    */
 }
+ 

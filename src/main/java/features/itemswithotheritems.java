@@ -5,15 +5,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+import org.lwjgl.input.Keyboard;
+
+import honesty.Main;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 
 public class itemswithotheritems {
-	ArrayList<String> ItemList = new ArrayList<>(Arrays.asList("Stonk", "Daedalus", "Metal"));
+	ArrayList<String> ItemList = new ArrayList<>(Arrays.asList("Stonk", "Daedalus", "Metal", "Cloak", "Juju", "Rogue"));
 	ArrayList<String> TeleportList = new ArrayList<>(Arrays.asList("Void", "Hyperion", "Scylla", "Valk", "Astrea", "Aspect of the End"));
 	ArrayList<String> RodList = new ArrayList<>(Arrays.asList("Rod"));
 	ArrayList<String> ForagingList = new ArrayList<>(Arrays.asList("Treecapitator", "Jungle"));
@@ -24,8 +32,23 @@ public class itemswithotheritems {
 	public static boolean active2 = false;
 	public static boolean active3 = false;
 	public boolean guiOpened = false;
+	private boolean ability = false;
 	
 	public long time = 0;
+	
+	private static final KeyBinding SWAP_KEY = new KeyBinding("itemswithotheritems.ability", Keyboard.KEY_Y, Main.MODID);
+	static {
+		ClientRegistry.registerKeyBinding(SWAP_KEY);
+	}
+
+	@SubscribeEvent
+	public void onKeyEvent(KeyInputEvent e) {
+		if (SWAP_KEY.isPressed()) {
+			ability = !ability;
+			Minecraft.getMinecraft().thePlayer
+					.addChatMessage(new ChatComponentText(EnumChatFormatting.AQUA + "Toggled Using Abilities: " + ability));
+		}
+	}
 
 	public static void rightClick() {
 		try {
@@ -133,6 +156,7 @@ public class itemswithotheritems {
 		if (!active2) return;
 		if (System.currentTimeMillis() < time) return;
 		if (guiOpened) return;
+		if (!ability) {
 		if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR
 				|| event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
 			if (Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem() == null) return;
@@ -160,6 +184,37 @@ public class itemswithotheritems {
 						}
 					}
 
+				}
+			}
+		}
+		} else if (ability) {
+			if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_AIR
+					|| event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
+				if (Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem() == null) return;
+				for (String List3 : Swapdps) {
+					if (Minecraft.getMinecraft().thePlayer.inventory.getCurrentItem().getDisplayName().contains(List3)) {
+						for (String List4 : Soulwhip) {
+							int Slot = findItemInHotbar(List4);
+							if (Slot >= 0) {
+								new Thread(() -> {
+									try {
+									int prevSlot = Minecraft.getMinecraft().thePlayer.inventory.currentItem;
+									Minecraft.getMinecraft().thePlayer.inventory.currentItem = Slot;
+									time = System.currentTimeMillis() + new Random().nextInt(375) + 125;
+										Thread.sleep(new Random().nextInt(75) + 50);
+										rightClick();
+										Thread.sleep(new Random().nextInt(75) + 50);
+										Minecraft.getMinecraft().thePlayer.inventory.currentItem = prevSlot;
+									} catch (InterruptedException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+								}).start();
+								return;
+							}
+						}
+
+					}
 				}
 			}
 		}
