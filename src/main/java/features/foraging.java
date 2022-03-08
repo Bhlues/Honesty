@@ -1,23 +1,25 @@
 package features;
 
-import java.util.Random;
 import java.lang.reflect.Method;
+import java.util.Random;
 
 import org.lwjgl.input.Keyboard;
+
 import honesty.Main;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StringUtils;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import utils.location;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
+import utils.location;
 
 public class foraging {
     public static boolean IslandForaging = false;
@@ -79,13 +81,12 @@ public class foraging {
     }
 
     public void onChat(ClientChatReceivedEvent e) {
-        String msg = e.message.getUnformattedText();
+    	String msg = StringUtils.stripControlCodes(e.message.getUnformattedText()).toLowerCase();
         if (msg.contains("leond3")) {
             return;
         }
-        if (msg.contains("is visiting Your Island!")) {
-            IslandForaging = false;
-        }
+        if (msg.contains(":")) return;
+        if (msg.endsWith(" is visiting your island!")) IslandForaging = false;
         if (msg.startsWith("Co-op")) {
             if (msg.contains("go waste time and start foraging")) {
                 if (StartAgain) {
