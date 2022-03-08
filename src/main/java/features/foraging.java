@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import utils.location;
@@ -17,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
 
 public class foraging {
     public static boolean IslandForaging = false;
@@ -74,6 +76,12 @@ public class foraging {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void onChat(ClientChatReceivedEvent e) {
+//        if () {
+//
+//       }
     }
 
     private static void KeyDown(KeyBinding key) {
