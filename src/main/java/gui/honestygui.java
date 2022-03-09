@@ -14,7 +14,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.Vec3;
+import utils.rotation;
 
 public class honestygui extends GuiScreen {
 
@@ -130,13 +133,14 @@ public class honestygui extends GuiScreen {
 			Minecraft.getMinecraft().displayGuiScreen(new otheritemsgui(1));
 		} else if (button == farmingbutton) {
 			Minecraft.getMinecraft().displayGuiScreen(new farminggui(1));
-					Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == isforaging) {
 			foraging.IslandForaging = !foraging.IslandForaging;
 			foraging.StartAgain = !foraging.StartAgain;
 			isforaging.displayString = "Island Foraging: " + (foraging.IslandForaging ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
 					+ foraging.IslandForaging;
 					Minecraft.getMinecraft().thePlayer.closeScreen();
+					//BlockPos dirt = Minecraft.getMinecraft().thePlayer.getPosition().add(0, 0, 3);
+		    		//rotation.facePos(new Vec3(Minecraft.getMinecraft().thePlayer.getPositionVector().xCoord, dirt.getY(), dirt.getZ()));
 			foraging.foragingcheck = true;
 		} else if (button == SoulWhipSwap) {
 			Minecraft.getMinecraft().displayGuiScreen(new soulwhipitems(1));
