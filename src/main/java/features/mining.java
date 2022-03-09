@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class mining {
-  /*  public static boolean pinglessMining;
+  /* public static boolean pinglessMining;
     private static BlockPos block = null;
     private static final ArrayList<BlockPos> broken = new ArrayList<>();
     private final KeyBinding lc = Minecraft.getMinecraft().gameSettings.keyBindAttack;
