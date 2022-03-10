@@ -21,6 +21,10 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class mining {
+// project scrapped might make into macro
+
+
+
   /* public static boolean pinglessMining;
     private static BlockPos block = null;
     private static final ArrayList<BlockPos> broken = new ArrayList<>();
