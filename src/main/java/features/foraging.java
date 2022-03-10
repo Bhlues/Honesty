@@ -321,10 +321,12 @@ public class foraging {
 		}
 	}
 
+	@SubscribeEvent
 	public void onWorldChange(WorldEvent.Unload e) {
-		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(
-				EnumChatFormatting.AQUA + "Foraging stopped:" + EnumChatFormatting.DARK_RED + "Due to server close"));
-		IslandForaging = false;
+		if (IslandForaging) {
+			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.AQUA
+					+ "Foraging stopped:" + EnumChatFormatting.DARK_RED + "Due to server close"));
+			IslandForaging = false;
+		}
 	}
-
 }
