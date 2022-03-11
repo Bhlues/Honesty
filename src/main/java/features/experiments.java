@@ -2,6 +2,7 @@ package features;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
@@ -21,12 +22,96 @@ import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import utils.ChestSlotClickedEvent;
-
 import utils.GuiChestBackgroundDrawnEvent;
 import utils.TextRenderer;
+import utils.location;
 
 public class experiments {
 
+	private long lastInteractTime;
+    private boolean getNextChronomatronClick;
+    private int[] pattern;
+    private int clickCount;
+    private int nextSlot;
+	public static boolean ExperimentSolver = false;
+
+	public static void drawOnSlot(final Slot slot, final int color) {
+        Gui.drawRect(slot.xDisplayPosition, slot.yDisplayPosition, slot.xDisplayPosition + 16, slot.yDisplayPosition + 16, color);
+    }
+    
+    public static void drawOnSlot(final Slot slot, final Color color) {
+        Gui.drawRect(slot.xDisplayPosition, slot.yDisplayPosition, slot.xDisplayPosition + 16, slot.yDisplayPosition + 16, color.getRGB());
+    }
+    
+    @SubscribeEvent
+    public void onRenderGui(final ChestBackgroundDrawnEvent event) {
+        if (!ExperimentSolver || !location.onIsland || event.chest.inventorySlots.get(49).getStack() == null) {
+            return;
+        }
+        final List<Slot> invSlots = (List<Slot>)event.chest.inventorySlots;
+        if (event.displayName.startsWith("Ultrasequencer (")) {
+            if (invSlots.get(49).getStack().getItem().equals(Items.clock)) {
+                if (this.pattern[this.clickCount] != 0) {
+                    final Slot slot = event.slots.get(this.pattern[this.clickCount]);
+                    drawOnSlot(slot, new Color(0, 255, 0).getRGB());
+                    if (System.currentTimeMillis() - this.lastInteractTime >= PizzaClient.config.funnyEnchantingDelay) {
+                        PizzaClient.mc.playerController.windowClick(PizzaClient.mc.thePlayer.openContainer.windowId, this.pattern[this.clickCount], 2, 0, (EntityPlayer)PizzaClient.mc.thePlayer);
+                        this.lastInteractTime = System.currentTimeMillis();
+                        this.pattern[this.clickCount] = 0;
+                        ++this.clickCount;
+                    }
+                }
+            }
+            else if (invSlots.get(49).getStack().getItem().equals(Item.getItemFromBlock(Blocks.glowstone))) {
+                for (int i = 9; i <= 44; ++i) {
+                    if (invSlots.get(i).getStack() != null) {
+                        if (this.pattern[invSlots.get(i).getStack().stackSize - 1] == 0 && !invSlots.get(i).getStack().getDisplayName().startsWith(" ")) {
+                            this.pattern[invSlots.get(i).getStack().stackSize - 1] = i;
+                        }
+                    }
+                }
+                this.clickCount = 0;
+            }
+        }
+        else if (event.displayName.startsWith("Chronomatron (")) {
+            if (invSlots.get(49).getStack().getItem().equals(Items.clock)) {
+                if (this.getNextChronomatronClick) {
+                    for (int i = 11; i <= 33; ++i) {
+                        if (invSlots.get(i).getStack() != null) {
+                            if (invSlots.get(i).getStack().getItem() == Item.getItemFromBlock(Blocks.stained_hardened_clay) && this.pattern[this.nextSlot] == 0) {
+                                this.getNextChronomatronClick = false;
+                                this.pattern[this.nextSlot] = i;
+                                ++this.nextSlot;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (this.pattern[this.clickCount] != 0) {
+                    final Slot slot = event.slots.get(this.pattern[this.clickCount]);
+                    RenderUtil.drawOnSlot(slot, new Color(0, 255, 0).getRGB());
+                    if (System.currentTimeMillis() - this.lastInteractTime >= PizzaClient.config.funnyEnchantingDelay) {
+                        PizzaClient.mc.playerController.windowClick(PizzaClient.mc.thePlayer.openContainer.windowId, this.pattern[this.clickCount], 2, 0, (EntityPlayer)PizzaClient.mc.thePlayer);
+                        this.lastInteractTime = System.currentTimeMillis();
+                        ++this.clickCount;
+                    }
+                }
+            }
+            else if (invSlots.get(49).getStack().getItem().equals(Item.getItemFromBlock(Blocks.glowstone))) {
+                this.clickCount = 0;
+                this.getNextChronomatronClick = true;
+            }
+        }
+    }
+    
+    @SubscribeEvent
+    public void onOpenGui(final GuiOpenEvent event) {
+        this.clickCount = 0;
+        this.pattern = new int[66];
+        this.nextSlot = 0;
+    }
+
+	/*
 	static int lastChronomatronRound = 0;
 	static List<String> chronomatronPattern = new ArrayList<>();
 	static int chronomatronMouseClicks = 0;
@@ -38,6 +123,9 @@ public class experiments {
     static int lastUltraSequencerClicked = 0;
     public static int ULTRASEQUENCER_NEXT;
     public static int ULTRASEQUENCER_NEXT_TO_NEXT;
+	public static int Randomizer = 0;
+	public static int PrevRandomizer = 0;
+	public static boolean InExperiment = false;
 
 	@SubscribeEvent
 	public void onSlotClick(ChestSlotClickedEvent event) {
@@ -47,13 +135,14 @@ public class experiments {
 			if (item == null)
 				return;
 
-			if (inventory.getStackInSlot(49).getDisplayName().startsWith("§7Timer: §a")
+			if (inventory.getStackInSlot(49).getDisplayName().startsWith("ï¿½7Timer: ï¿½a")
 					&& (item.getItem() == Item.getItemFromBlock(Blocks.stained_glass)
 							|| item.getItem() == Item.getItemFromBlock(Blocks.stained_hardened_clay))) {
 				chronomatronMouseClicks++;
 			}
 		}
 	}
+
 
 	public static void drawOnSlot(int size, int xSlotPos, int ySlotPos, int colour) {
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
@@ -74,8 +163,9 @@ public class experiments {
 	        if (chronomatronToggled && event.displayName.startsWith("Chronomatron (")) {
 	            int chestSize = event.chestSize;
 	            List<Slot> invSlots = event.slots;
+				InExperiment = true;
 	            if (invSlots.size() > 48 && invSlots.get(49).getStack() != null) {
-	                if (invSlots.get(49).getStack().getDisplayName().startsWith("§7Timer: §a") && invSlots.get(4).getStack() != null) {
+	                if (invSlots.get(49).getStack().getDisplayName().startsWith("ï¿½7Timer: ï¿½a") && invSlots.get(4).getStack() != null) {
 	                    int round = invSlots.get(4).getStack().stackSize;
 	                    int timerSeconds = Integer.parseInt(StringUtils.stripControlCodes(invSlots.get(49).getStack().getDisplayName()).replaceAll("[^\\d]", ""));
 	                    if (round != lastChronomatronRound && timerSeconds == round + 2) {
@@ -111,7 +201,7 @@ public class experiments {
 	                            }
 	                        }
 	                    }
-	                } else if (invSlots.get(49).getStack().getDisplayName().equals("§aRemember the pattern!")) {
+	                } else if (invSlots.get(49).getStack().getDisplayName().equals("ï¿½aRemember the pattern!")) {
 	                    chronomatronMouseClicks = 0;
 	                }
 	            }
@@ -120,10 +210,11 @@ public class experiments {
 	            int guiLeft = (sr.getScaledWidth() - 176) / 2;
 	            new TextRenderer(mc, String.join("\n", chronomatronPattern), (int) (guiLeft * 0.8), 10, 1);
 	        }
-	        if (ultrasequencerToggled && event.displayName.startsWith("Ultrasequencer (")) {
+	        else if (ultrasequencerToggled && event.displayName.startsWith("Ultrasequencer (")) {
 	            List<Slot> invSlots = event.slots;
+				InExperiment = true;
 	            if (invSlots.size() > 48 && invSlots.get(49).getStack() != null) {
-	                if (invSlots.get(49).getStack().getDisplayName().startsWith("§7Timer: §a")) {
+	                if (invSlots.get(49).getStack().getDisplayName().startsWith("ï¿½7Timer: ï¿½a")) {
 	                    lastUltraSequencerClicked = 0;
 	                    for (Slot slot : clickInOrderSlots) {
 	                        if (slot != null && slot.getStack() != null && StringUtils.stripControlCodes(slot.getStack().getDisplayName()).matches("\\d+")) {
@@ -145,9 +236,30 @@ public class experiments {
 	                    }
 	                }
 	            }
-	        }
+	        } else {
+				InExperiment = false;
+			}
 	    }
 
+	@SubscribeEvent
+	public void onTick(TickEvent.ClientTickEvent event) {
+		if (InExperiment) {
+			if (Randomizer == PrevRandomizer) {
+				Randomizer = new Random().nextInt(200) + 250;
+			} else {
+				new Thread(() -> {
+					try {
+						Thread.sleep(Randomizer);
+						
+						PrevRandomizer = Randomizer;
+					} catch (InterruptedException ex) {
+						ex.printStackTrace();
+					}
+				}).start();
+
+			}
+		}
+	}
 
 	@SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
@@ -162,7 +274,7 @@ public class experiments {
             String chestName = chest.getLowerChestInventory().getDisplayName().getUnformattedText().trim();
 
             if (ultrasequencerToggled && chestName.startsWith("Ultrasequencer (")) {
-                if (invSlots.get(49).getStack() != null && invSlots.get(49).getStack().getDisplayName().equals("§aRemember the pattern!")) {
+                if (invSlots.get(49).getStack() != null && invSlots.get(49).getStack().getDisplayName().equals("ï¿½aRemember the pattern!")) {
                     for (int i = 9; i <= 44; i++) {
                         if (invSlots.get(i) == null || invSlots.get(i).getStack() == null) continue;
                         String itemName = StringUtils.stripControlCodes(invSlots.get(i).getStack().getDisplayName());
@@ -184,5 +296,5 @@ public class experiments {
 		chronomatronPattern.clear();
 		chronomatronMouseClicks = 0;
     }
-	
+	*/
 }

@@ -139,8 +139,8 @@ public class honestygui extends GuiScreen {
 			isforaging.displayString = "Island Foraging: " + (foraging.IslandForaging ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
 					+ foraging.IslandForaging;
 					Minecraft.getMinecraft().thePlayer.closeScreen();
-					//BlockPos dirt = Minecraft.getMinecraft().thePlayer.getPosition().add(0, 0, 3);
-		    		//rotation.facePos(new Vec3(Minecraft.getMinecraft().thePlayer.getPositionVector().xCoord, dirt.getY(), dirt.getZ()));
+					//TODO BlockPos dirt = Minecraft.getMinecraft().thePlayer.getPosition().add(0, 0, 3);
+		    		//TODO rotation.facePos(new Vec3(Minecraft.getMinecraft().thePlayer.getPositionVector().xCoord, dirt.getY(), dirt.getZ()));
 			foraging.foragingcheck = true;
 		} else if (button == SoulWhipSwap) {
 			Minecraft.getMinecraft().displayGuiScreen(new soulwhipitems(1));
