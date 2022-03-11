@@ -196,6 +196,8 @@ public class foraging {
 					}
 				}
 			}
+		} else {
+			IslandForaging = false;
 		}
 	}
 
@@ -259,6 +261,8 @@ public class foraging {
 					}
 				}
 			}
+		} else {
+			IslandForaging = false;
 		}
 	}
 
@@ -288,6 +292,8 @@ public class foraging {
 					}
 				}
 			}
+		} else {
+			IslandForaging = false;
 		}
 	}
 
@@ -318,14 +324,14 @@ public class foraging {
 					}
 				}
 			}
+		} else {
+			IslandForaging = false;
 		}
 	}
 
 	@SubscribeEvent
 	public void onWorldChange(WorldEvent.Unload e) {
 		if (IslandForaging) {
-			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.AQUA
-					+ "Foraging stopped:" + EnumChatFormatting.DARK_RED + "Due to server close"));
 			IslandForaging = false;
 		}
 	}

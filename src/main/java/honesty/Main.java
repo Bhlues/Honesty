@@ -4,6 +4,7 @@ package honesty;
 import org.lwjgl.input.Keyboard;
 
 import features.corleone;
+import features.experiments;
 import features.farming;
 import features.foraging;
 import features.mining;
@@ -44,6 +45,7 @@ public class Main {
 		MinecraftForge.EVENT_BUS.register(new perspective());
 		MinecraftForge.EVENT_BUS.register(new foraging());
 		MinecraftForge.EVENT_BUS.register(new soulwhipwithanything());
+		MinecraftForge.EVENT_BUS.register(new experiments());
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 
