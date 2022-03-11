@@ -69,7 +69,7 @@ public class experiments {
 					drawOnSlot(slot, new Color(0, 255, 0).getRGB());
 					if (System.currentTimeMillis() - this.lastInteractTime >= UltrasequencerDelay) {
 						UltrasequencerDelay = new Random().nextInt((150)+300);
-						Minecraft.getMinecraft().windowClick(Minecraft.getMinecraft().thePlayer.openContainer.windowId,
+						Minecraft.getMinecraft().playerController.windowClick(Minecraft.getMinecraft().thePlayer.openContainer.windowId,
 								this.pattern[this.clickCount], 2, 0, (EntityPlayer) Minecraft.getMinecraft().thePlayer);
 						this.lastInteractTime = System.currentTimeMillis();
 						this.pattern[this.clickCount] = 0;
@@ -107,8 +107,8 @@ public class experiments {
 					final Slot slot = event.slots.get(this.pattern[this.clickCount]);
 					drawOnSlot(slot, new Color(0, 255, 0).getRGB());
 					if (System.currentTimeMillis() - this.lastInteractTime >= ChronomatronDelay) {
-						ChronomatronDelay = new Random ().nextInt(200)+250);
-						Minecraft.getMinecraft().playerController.windowClick(Minecraft.getMinecraft(),
+						ChronomatronDelay = new Random ().nextInt((200) + 250);
+						Minecraft.getMinecraft().playerController.windowClick(Minecraft.getMinecraft().thePlayer.openContainer.windowId,
 								this.pattern[this.clickCount], 2, 0, (EntityPlayer) Minecraft.getMinecraft().thePlayer);
 						this.lastInteractTime = System.currentTimeMillis();
 						++this.clickCount;
