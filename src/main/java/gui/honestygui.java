@@ -7,6 +7,7 @@ import features.corleone;
 import features.perspective;
 //import features.soulwhip;
 import features.foraging;
+import features.experiments; 
 import gui.opengui.farminggui;
 import gui.opengui.otheritemsgui;
 import gui.opengui.soulwhipitems;
@@ -32,13 +33,14 @@ public class honestygui extends GuiScreen {
 	private GuiButton nextPage;
 
 	// toggles
-	private GuiButton corleoneafk;
+	//private GuiButton corleoneafk;
 	private GuiButton farmingbutton;
 	private GuiButton isforaging;
 	//private GuiButton soulwhipSS;
 	private GuiButton itemswithother;
 	private GuiButton perspectivef5;
 	private GuiButton SoulWhipSwap;
+	private GuiButton ExperimentTable;
 
 
 	public honestygui(int page) {
@@ -71,7 +73,8 @@ public class honestygui extends GuiScreen {
 		// UP THERE BIG BRAIN MAIN
 		//soulwhipSS = new GuiButton(0, 0, 0, "Soulwhip Swordswap" + statusText(soulwhip.active));
 		perspectivef5 = new GuiButton(0, 0, 0, "Remove Second Person" + statusText(perspective.togglef5));
-		corleoneafk = new GuiButton(0, 0, 0, "Corleone AFK" + statusText(corleone.afk));
+		//corleoneafk = new GuiButton(0, 0, 0, "Corleone AFK" + statusText(corleone.afk));
+		ExperimentTable = new GuiButton(0, 0, 0, "Experiment Table" + statusText(experiments.ExperimentSolver));
 
 		allButtons.add(farmingbutton);
 		allButtons.add(isforaging);
@@ -79,7 +82,8 @@ public class honestygui extends GuiScreen {
 		//allButtons.add(soulwhipSS);
 		allButtons.add(itemswithother);
 		allButtons.add(perspectivef5);
-		allButtons.add(corleoneafk);
+		allButtons.add(ExperimentTable);
+		//allButtons.add(corleoneafk);
 
 		reInit();
 	}
@@ -105,7 +109,7 @@ public class honestygui extends GuiScreen {
 
 		if (page > 1)
 			this.buttonList.add(backPage);
-		if (page < Math.ceil(foundButtons.size() / 7D))
+		if (page < Math.ceil(foundButtons.size() / 6))
 			this.buttonList.add(nextPage);
 
 		this.buttonList.add(closeGUI);
@@ -119,11 +123,11 @@ public class honestygui extends GuiScreen {
 			mc.displayGuiScreen(new honestygui(page + 1));
 		} else if (button == backPage) {
 			mc.displayGuiScreen(new honestygui(page - 1));
-		} else if (button == corleoneafk) {
-			corleone.afk = !corleone.afk;
-			corleoneafk.displayString = "Corleone AFK: " + (corleone.afk ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
-					+ corleone.afk;
-					Minecraft.getMinecraft().thePlayer.closeScreen();
+		//} else if (button == corleoneafk) {
+	//		corleone.afk = !corleone.afk;
+		//	corleoneafk.displayString = "Corleone AFK: " + (corleone.afk ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
+		//			+ corleone.afk;
+		//			Minecraft.getMinecraft().thePlayer.closeScreen();
 		//} else if (button == soulwhipSS) {
 		//	soulwhip.active = !soulwhip.active;
 		//.displayString = "Soulwhip Swordswap: "
@@ -144,6 +148,10 @@ public class honestygui extends GuiScreen {
 			foraging.foragingcheck = true;
 		} else if (button == SoulWhipSwap) {
 			Minecraft.getMinecraft().displayGuiScreen(new soulwhipitems(1));
+		} else if (button == ExperimentTable) {
+			experiments.ExperimentSolver = !experiments.ExperimentSolver;
+			ExperimentTable.displayString = "Experiment Table: " + (experiments.ExperimentSolver ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
+					+ experiments.ExperimentSolver;
 		}
 	}
 }
