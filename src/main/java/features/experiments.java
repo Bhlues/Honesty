@@ -104,8 +104,14 @@ public class experiments {
 	@SubscribeEvent
 	public void onGui(GuiOpenEvent e) {
 		order.clear();
+		lastClickedSlot = -1;
 	}
 	
+	/*
+	* added by the sponge talisman, remembers the last clicked slot.
+	* Checks if the last clicked slot is not equal to null, if it is: the item is still picked up, if it isnt: we can click again.
+	*/
+	private int lastClickedSlot = -1;
 
 	public void solve() {
 		if (goSolve)
@@ -118,10 +124,29 @@ public class experiments {
 					int ClickSlot = order.get(goClick);
 					Minecraft mc = Minecraft.getMinecraft();
 					EntityPlayerSP player = mc.thePlayer;
+					/*
+					OLD CODE:
 					if (player.inventory.getCurrentItem() != null) {
 						Thread.sleep(300);
 						continue;
 					}
+
+
+					NEW CODE: */
+					Container container = player.openContainer;
+					if (!(container instanceof ContainerChest)) {
+						// Mhh... it seems like the gui is no longer a chest gui? Lets just end the code here.
+						// i.e. this will trigger when the hopper gui is opened
+						break;
+					}
+					IInventory gui = ((ContainerChest) container).getLowerChestInventory();
+					ItemStack item = gui.getStackInSlot(ClickSlot);
+					if (item == null) { // if the item is null, it means it is no longer in the gui and thus still picked up
+						// wait a bit and then rerun the code, checking if the item is now in the gui so that we can click again
+						Thread.sleep(300);
+						continue;
+					}
+					// end of new code - spongetalisman
 					goClick++;
 					mc.playerController.windowClick(player.openContainer.windowId, ClickSlot, 0, 0, (EntityPlayer) player);
 					Thread.sleep(300 + new Random().nextInt(200));
