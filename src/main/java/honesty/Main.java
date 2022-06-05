@@ -11,6 +11,7 @@ import features.perspective;
 import features.soulwhip;
 import features.itemswithotheritems;
 import features.soulwhipwithanything;
+import features.fishing;
 import gui.honestygui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
@@ -46,6 +47,7 @@ public class Main {
 		MinecraftForge.EVENT_BUS.register(new foraging());
 		MinecraftForge.EVENT_BUS.register(new soulwhipwithanything());
 		MinecraftForge.EVENT_BUS.register(new experiments());
+		MinecraftForge.EVENT_BUS.register(new fishing());
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 

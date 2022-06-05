@@ -3,11 +3,11 @@ package gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import features.corleone;
-import features.perspective;
+import features.experiments;
+import features.fishing;
 //import features.soulwhip;
 import features.foraging;
-import features.experiments; 
+import features.perspective;
 import gui.opengui.farminggui;
 import gui.opengui.otheritemsgui;
 import gui.opengui.soulwhipitems;
@@ -15,10 +15,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.Vec3;
-import utils.rotation;
 
 public class honestygui extends GuiScreen {
 
@@ -33,15 +30,15 @@ public class honestygui extends GuiScreen {
 	private GuiButton nextPage;
 
 	// toggles
-	//private GuiButton corleoneafk;
+	// private GuiButton corleoneafk;
 	private GuiButton farmingbutton;
 	private GuiButton isforaging;
-	//private GuiButton soulwhipSS;
+	// private GuiButton soulwhipSS;
+	private GuiButton fishingbutton;
 	private GuiButton itemswithother;
 	private GuiButton perspectivef5;
 	private GuiButton SoulWhipSwap;
 	private GuiButton ExperimentTable;
-
 
 	public honestygui(int page) {
 		this.page = page;
@@ -66,28 +63,33 @@ public class honestygui extends GuiScreen {
 
 		farmingbutton = new GuiButton(0, 0, 0, "Farming Menu");
 		isforaging = new GuiButton(0, 0, 0, "Island Foraging" + statusText(foraging.IslandForaging));
+		fishingbutton = new GuiButton(0, 0, 0, "Fishing" + statusText(fishing.incomingFishWarningR));
 		SoulWhipSwap = new GuiButton(0, 0, 0, "Soul Whip With Other Items Menu");
 		itemswithother = new GuiButton(0, 0, 0, "Items with other items");
 		// ITS HERE
-				// Minecraft.getMinecraft().thePlayer.closeScreen(); I DON'T WANT TO TALK ABOUT IT
+		// Minecraft.getMinecraft().thePlayer.closeScreen(); I DON'T WANT TO TALK ABOUT
+		// IT
 		// UP THERE BIG BRAIN MAIN
-		//soulwhipSS = new GuiButton(0, 0, 0, "Soulwhip Swordswap" + statusText(soulwhip.active));
+		// soulwhipSS = new GuiButton(0, 0, 0, "Soulwhip Swordswap" +
+		// statusText(soulwhip.active));
 		perspectivef5 = new GuiButton(0, 0, 0, "Remove Second Person" + statusText(perspective.togglef5));
-		//corleoneafk = new GuiButton(0, 0, 0, "Corleone AFK" + statusText(corleone.afk));
+		// corleoneafk = new GuiButton(0, 0, 0, "Corleone AFK" +
+		// statusText(corleone.afk));
 		ExperimentTable = new GuiButton(0, 0, 0, "Experiment Table" + statusText(experiments.ExperimentSolver));
 
 		allButtons.add(farmingbutton);
 		allButtons.add(isforaging);
+		allButtons.add(fishingbutton);
 		allButtons.add(SoulWhipSwap);
-		//allButtons.add(soulwhipSS);
+		// allButtons.add(soulwhipSS);
 		allButtons.add(itemswithother);
 		allButtons.add(perspectivef5);
 		allButtons.add(ExperimentTable);
-		//allButtons.add(corleoneafk);
+		// allButtons.add(corleoneafk);
 
 		reInit();
 	}
-	
+
 	private String statusText(boolean feature) {
 		return ": " + (feature ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + (feature ? "On" : "Off");
 	}
@@ -123,16 +125,18 @@ public class honestygui extends GuiScreen {
 			mc.displayGuiScreen(new honestygui(page + 1));
 		} else if (button == backPage) {
 			mc.displayGuiScreen(new honestygui(page - 1));
-		//} else if (button == corleoneafk) {
-	//		corleone.afk = !corleone.afk;
-		//	corleoneafk.displayString = "Corleone AFK: " + (corleone.afk ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
-		//			+ corleone.afk;
-		//			Minecraft.getMinecraft().thePlayer.closeScreen();
-		//} else if (button == soulwhipSS) {
-		//	soulwhip.active = !soulwhip.active;
-		//.displayString = "Soulwhip Swordswap: "
-		//			+ (soulwhip.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) + soulwhip.active;
-		//			Minecraft.getMinecraft().thePlayer.closeScreen();
+			// } else if (button == corleoneafk) {
+			// corleone.afk = !corleone.afk;
+			// corleoneafk.displayString = "Corleone AFK: " + (corleone.afk ?
+			// EnumChatFormatting.GREEN : EnumChatFormatting.RED)
+			// + corleone.afk;
+			// Minecraft.getMinecraft().thePlayer.closeScreen();
+			// } else if (button == soulwhipSS) {
+			// soulwhip.active = !soulwhip.active;
+			// .displayString = "Soulwhip Swordswap: "
+			// + (soulwhip.active ? EnumChatFormatting.GREEN : EnumChatFormatting.RED) +
+			// soulwhip.active;
+			// Minecraft.getMinecraft().thePlayer.closeScreen();
 		} else if (button == itemswithother) {
 			Minecraft.getMinecraft().displayGuiScreen(new otheritemsgui(1));
 		} else if (button == farmingbutton) {
@@ -140,17 +144,28 @@ public class honestygui extends GuiScreen {
 		} else if (button == isforaging) {
 			foraging.IslandForaging = !foraging.IslandForaging;
 			foraging.StartAgain = !foraging.StartAgain;
-			isforaging.displayString = "Island Foraging: " + (foraging.IslandForaging ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
+			isforaging.displayString = "Island Foraging: "
+					+ (foraging.IslandForaging ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
 					+ foraging.IslandForaging;
-					Minecraft.getMinecraft().thePlayer.closeScreen();
-					//TODO BlockPos dirt = Minecraft.getMinecraft().thePlayer.getPosition().add(0, 0, 3);
-		    		//TODO rotation.facePos(new Vec3(Minecraft.getMinecraft().thePlayer.getPositionVector().xCoord, dirt.getY(), dirt.getZ()));
+			Minecraft.getMinecraft().thePlayer.closeScreen();
+			// TODO BlockPos dirt = Minecraft.getMinecraft().thePlayer.getPosition().add(0,
+			// 0, 3);
+			// TODO rotation.facePos(new
+			// Vec3(Minecraft.getMinecraft().thePlayer.getPositionVector().xCoord,
+			// dirt.getY(), dirt.getZ()));
 			foraging.foragingcheck = true;
 		} else if (button == SoulWhipSwap) {
 			Minecraft.getMinecraft().displayGuiScreen(new soulwhipitems(1));
+		} else if (button == fishingbutton) {
+			fishing.incomingFishWarning = !fishing.incomingFishWarning;
+			fishing.incomingFishWarningR = !fishing.incomingFishWarningR;
+			fishingbutton.displayString = "Fishing: "
+					+ (fishing.incomingFishWarningR ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
+					+ fishing.incomingFishWarningR;
 		} else if (button == ExperimentTable) {
 			experiments.ExperimentSolver = !experiments.ExperimentSolver;
-			ExperimentTable.displayString = "Experiment Table: " + (experiments.ExperimentSolver ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
+			ExperimentTable.displayString = "Experiment Table: "
+					+ (experiments.ExperimentSolver ? EnumChatFormatting.GREEN : EnumChatFormatting.RED)
 					+ experiments.ExperimentSolver;
 		}
 	}
